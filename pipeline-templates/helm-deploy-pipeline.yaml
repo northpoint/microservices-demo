@@ -8,10 +8,16 @@ parameters:
 - name: acrName
   default: 'kubeinnovationacr.azurecr.io'
 
+resources:
+  repositories:
+    - repository: microservicesdemo
+      type: github
+      endpoint: github-svcconn
+
 jobs:
 - job: HelmDeploy
   steps:
-
+  - checkout: microservicesdemo
   - task: Bash@3
     inputs:
       targetType: 'inline'
