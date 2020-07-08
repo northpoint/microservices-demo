@@ -18,12 +18,21 @@ jobs:
     inputs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
+      command: 'dependency'
+      chartType: 'FilePath'
+      chartPath: './deploy/kubernetes/helm-chart/'
+      releaseName: 'microservices-demo'
+      arguments: update
+  - task: HelmDeploy@0
+    displayName: Deploy microservices demo
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
       command: 'upgrade'
       chartType: 'FilePath'
       chartPath: './deploy/kubernetes/helm-chart/'
       releaseName: 'microservices-demo'
       arguments: >
         --create-namespace
-        --dependency-update
 
 ## to do add set image 
