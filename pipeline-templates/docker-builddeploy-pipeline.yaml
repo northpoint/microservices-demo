@@ -6,7 +6,7 @@ parameters:
 - name: dockerfilePath
   default: ''
 - name: containerRegistrySvcConn
-  default: 'e828e3d4-ef79-4f93-99ef-b9056a2f62b7'
+  default: 'KubeInovACR'
 
 jobs:
 - job: DockerBuild
