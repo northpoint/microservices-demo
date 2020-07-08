@@ -15,6 +15,7 @@ jobs:
   - task: HelmDeploy@0
     displayName: Update dependencies from requirements.yaml
     inputs:
+      connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
       command: 'dep'
       chartType: 'FilePath'
