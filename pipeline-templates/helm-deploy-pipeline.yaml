@@ -13,14 +13,21 @@ jobs:
   steps:
   - checkout: microservicesdemo
   - task: HelmDeploy@0
+    displayName: Update dependencies from requirements.yaml
+    inputs:
+      kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
+      command: 'dep'
+      arguments: 'update'
+
+  - task: HelmDeploy@0
+    displayName: Deploy microservices demo
     inputs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
-      namespace: catalogue
       command: 'upgrade'
       chartType: 'FilePath'
       chartPath: './deploy/kubernetes/helm-chart/'
-      releaseName: 'catalogue-db'
+      releaseName: 'microservices-demo'
       arguments: |
         --create-namespace
 
