@@ -13,6 +13,12 @@ jobs:
   steps:
   - checkout: microservicesdemo
 
+  - task: Bash@3
+    displayName: Update dependencies in requirements.yaml
+    inputs:
+      targetType: 'inline'
+      script: 'helm dependency update ./deploy/kubernetes/helm-chart'
+      
   - task: HelmDeploy@0
     displayName: Deploy microservices demo
     inputs:
@@ -22,7 +28,7 @@ jobs:
       chartType: 'FilePath'
       chartPath: './deploy/kubernetes/helm-chart/'
       releaseName: 'microservices-demo'
-      updateDependency: true
+      #updateDependency: true
       arguments: >
         --create-namespace
 
