@@ -11,15 +11,7 @@ parameters:
 jobs:
 - job: HelmDeploy
   steps:
-
   - checkout: microservicesdemo
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd /home/vsts/work/1/s/deploy/kubernetes/helm-chart
-        ls
-
   - task: HelmDeploy@0
     inputs:
       connectionType: 'Kubernetes Service Connection'
