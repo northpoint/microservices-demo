@@ -18,7 +18,7 @@ jobs:
       namespace: catalogue
       command: 'upgrade'
       chartType: 'FilePath'
-      chartPath: '/microservices-demo/deploy/kubernetes/helm-chart/'
+      chartPath: './microservices-demo/deploy/kubernetes/helm-chart/'
       releaseName: 'catalogue-db'
       arguments: |
         '--create-namespace'
