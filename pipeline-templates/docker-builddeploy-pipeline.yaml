@@ -11,12 +11,19 @@ parameters:
 jobs:
 - job: DockerBuild
   steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: ${{ parameters.acrRepo }}
-        dockerfile: ${{ parameters.dockerfilePath }}
-        containerRegistry: ${{ parameters.containerRegistrySvcConn }}
-        tags: ${{ parameters.tag }}
-        buildContext: '**'
+  - task: Docker@2
+    inputs:
+      command: 'build'
+      containerRegistry: ${{ parameters.containerRegistrySvcConn }}
+      arguments: '-t ${{ parameters.acrRepo }}:${{ parameters.tag }} -f {{ parameters.dockerfilePath }} .'
+
+
+    # - task: Docker@2
+    #   displayName: Build and push an image to container registry
+    #   inputs:
+    #     command: buildAndPush
+    #     repository: ${{ parameters.acrRepo }}
+    #     dockerfile: ${{ parameters.dockerfilePath }}
+    #     containerRegistry: ${{ parameters.containerRegistrySvcConn }}
+    #     tags: ${{ parameters.tag }}
+
