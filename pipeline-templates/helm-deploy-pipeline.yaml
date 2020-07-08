@@ -12,15 +12,15 @@ jobs:
 - job: HelmDeploy
   steps:
   - checkout: microservicesdemo
-  - task: HelmDeploy@0
-    displayName: Update dependencies from requirements.yaml
-    inputs:
-      connectionType: 'Kubernetes Service Connection'
-      kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
-      command: 'dep'
-      chartType: 'FilePath'
-      chartPath: './deploy/kubernetes/helm-chart/'
-      arguments: 'update'
+  # - task: HelmDeploy@0
+  #   displayName: Update dependencies from requirements.yaml
+  #   inputs:
+  #     connectionType: 'Kubernetes Service Connection'
+  #     kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
+  #     command: 'dependency'
+  #     chartType: 'FilePath'
+  #     chartPath: './deploy/kubernetes/helm-chart/'
+  #     arguments: 'update'
 
   - task: HelmDeploy@0
     displayName: Deploy microservices demo
@@ -33,5 +33,6 @@ jobs:
       releaseName: 'microservices-demo'
       arguments: |
         --create-namespace
+        --dependency-update
 
 ## to do add set image 
