@@ -15,7 +15,7 @@ jobs:
     inputs:
       command: 'build'
       containerRegistry: ${{ parameters.containerRegistrySvcConn }}
-      arguments: '-t ${{ parameters.acrRepo }}:${{ parameters.tag }} -f {{ parameters.dockerfilePath }} .'
+      arguments: '-t ${{ parameters.acrRepo }}:${{ parameters.tag }} -f ${{ parameters.dockerfilePath }} .'
 
 
     # - task: Docker@2
