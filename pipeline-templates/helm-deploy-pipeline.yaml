@@ -30,6 +30,6 @@ jobs:
       chartPath: '/deploy/kubernetes/helm-chart/'
       releaseName: 'catalogue-db'
       arguments: |
-        '--create-namespace'
+        --create-namespace
 
 ## to do add set image 
