@@ -19,3 +19,4 @@ jobs:
         dockerfile: ${{ parameters.dockerfilePath }}
         containerRegistry: ${{ parameters.containerRegistrySvcConn }}
         tags: ${{ parameters.tag }}
+        buildContext: '**'
