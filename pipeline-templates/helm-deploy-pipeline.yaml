@@ -12,7 +12,7 @@ jobs:
 - job: HelmDeploy
   steps:
 
-  - checkout: self
+  - checkout: git://northpoint/microservices-demo
   - task: Bash@3
     inputs:
       targetType: 'inline'
