@@ -11,7 +11,7 @@ parameters:
 jobs:
 - job: HelmDeploy
   steps:
-  - checkout: microservicesdemo
+  ##- checkout: microservicesdemo
   - task: HelmDeploy@0
     inputs:
       connectionType: 'Kubernetes Service Connection'
