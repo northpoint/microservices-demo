@@ -2,7 +2,7 @@ parameters:
 - name: tag
   default: 'latest'
 - name: acrRepo
-  default: 'kubeinnovationacr.azurecr.io'
+  default: ''
 - name: dockerfilePath
   default: ''
 - name: containerRegistrySvcConn
