@@ -17,6 +17,8 @@ jobs:
     inputs:
       kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
       command: 'dep'
+      chartType: 'FilePath'
+      chartPath: './deploy/kubernetes/helm-chart/'
       arguments: 'update'
 
   - task: HelmDeploy@0
