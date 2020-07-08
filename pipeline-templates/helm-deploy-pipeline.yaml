@@ -1,0 +1,35 @@
+parameters:
+- name: tag
+  default: 'latest'
+- name: acrRepo
+  default: ''
+- name: kubernetesSvcConn
+  default: 'KubeInovAKS'
+- name: acrName
+  default: 'kubeinnovationacr.azurecr.io'
+
+jobs:
+- job: HelmDeploy
+  steps:
+  - checkout: microservicesdemo
+
+  - task: Bash@3
+    displayName: Update dependencies in requirements.yaml
+    inputs:
+      targetType: 'inline'
+      script: 'helm dependency update ./deploy/kubernetes/helm-chart'
+      
+  - task: HelmDeploy@0
+    displayName: Deploy microservices demo
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: './deploy/kubernetes/helm-chart/'
+      releaseName: 'microservices-demo'
+      #updateDependency: true
+      arguments: >
+        --create-namespace
+
+## to do add set image 

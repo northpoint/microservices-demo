@@ -1,0 +1,24 @@
+parameters:
+- name: tag
+  default: 'latest'
+- name: acrRepo
+  default: ''
+- name: dockerfilePath
+  default: ''
+- name: containerRegistrySvcConn
+  default: 'KubeInovACR'
+
+jobs:
+- job: DockerBuild
+  steps:
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: ${{ parameters.acrRepo }}
+        dockerfile: ${{ parameters.dockerfilePath }}
+        containerRegistry: ${{ parameters.containerRegistrySvcConn }}
+        tags: ${{ parameters.tag }}
+        buildContext: $(Build.Repository.LocalPath)
+
