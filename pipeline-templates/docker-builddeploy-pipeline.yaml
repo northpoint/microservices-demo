@@ -7,6 +7,8 @@ parameters:
   default: ''
 - name: containerRegistrySvcConn
   default: 'KubeInovACR'
+- name: buildContext
+  default: '**'
 
 jobs:
 - job: DockerBuild
@@ -20,5 +22,5 @@ jobs:
         dockerfile: ${{ parameters.dockerfilePath }}
         containerRegistry: ${{ parameters.containerRegistrySvcConn }}
         tags: ${{ parameters.tag }}
-        buildContext: $(Build.Repository.LocalPath)
+        buildContext: ${{ parameters.buildContext }}
 
