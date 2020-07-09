@@ -1,20 +1,20 @@
 parameters:
-- name: tag
-  default: 'latest'
-- name: acrRepo
+- name: kubernetesSvcConn # kubernetes svc conn
+  default: 'kevaks-svcconn'
+- name: serviceName # microservice name (overwriting image.<serviceName> in helm)
   default: ''
-- name: kubernetesSvcConn
-  default: 'KubeInovAKS'
-- name: acrName
-  default: 'kubeinnovationacr.azurecr.io'
+- name: image # new deployed image (overwriting the image value in helm)
+  default: ''
+- name: containerRegistry # container registry (overwriting the registry in helm)
+  default: 'kevtestacr.azurecr.io'
 
 jobs:
 - job: HelmDeploy
   steps:
-  - checkout: microservicesdemo
+  - checkout: microservicesdemo # checks out template yaml in microservices-demo
 
   - task: Bash@3
-    displayName: Update dependencies in requirements.yaml
+    displayName: Downloads dependencies from requirements.yaml
     inputs:
       targetType: 'inline'
       script: 'helm dependency update ./deploy/kubernetes/helm-chart'
@@ -28,8 +28,10 @@ jobs:
       chartType: 'FilePath'
       chartPath: './deploy/kubernetes/helm-chart/'
       releaseName: 'microservices-demo'
-      #updateDependency: true
+      failOnStderr: false # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/helm-deploy?view=azure-devops#when-using-helm-3-if-systemdebug-is-set-to-true-and-helm-upgrade-is-the-command-being-used-the-pipeline-fails-even-though-the-upgrade-was-successful
       arguments: >
         --create-namespace
+        --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
+        --reuse-values   
 
-## to do add set image 
+       # make sure we dont reset to default values in helm for other services

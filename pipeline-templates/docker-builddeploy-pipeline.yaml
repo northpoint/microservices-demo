@@ -1,13 +1,13 @@
 parameters:
-- name: tag
+- name: tag   # tag/version
   default: 'latest'
-- name: acrRepo
+- name: acrRepo # repo name for the service
   default: ''
 - name: dockerfilePath
   default: ''
-- name: containerRegistrySvcConn
-  default: 'KubeInovACR'
-- name: buildContext
+- name: containerRegistrySvcConn  # acr svc conn
+  default: 'kevacr-svcconn'
+- name: buildContext    # build context for docker build, depends on service
   default: '**'
 
 jobs:

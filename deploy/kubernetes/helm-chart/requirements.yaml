@@ -1,4 +1,4 @@
 dependencies:
   - name: nginx-ingress
-    version: 0.4.2
-    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 0.0.0-edge
+    repository: https://helm.nginx.com/edge
