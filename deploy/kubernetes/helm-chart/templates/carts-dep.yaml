@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: carts
-        image: weaveworksdemos/carts:0.4.8
+        image: {{ .Values.images.carts }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN

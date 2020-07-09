@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: weaveworksdemos/orders:0.4.7
+        image: {{ .Values.images.orders }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN
