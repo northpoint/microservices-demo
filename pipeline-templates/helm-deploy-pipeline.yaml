@@ -5,7 +5,7 @@ parameters:
   default: ''
 - name: image # new deployed image (overwriting the image value in helm)
   default: ''
-- name: acrName
+- name: containerRegistry
   default: 'kubeinnovationacr.azurecr.io'
 
 jobs:
