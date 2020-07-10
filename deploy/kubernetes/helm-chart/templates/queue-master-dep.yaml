@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: queue-master
-        image: weaveworksdemos/queue-master:0.3.1
+        image: {{ .Values.images.queuemaster }}
         env:
          {{- if .Values.zipkin.enabled }}
          - name: ZIPKIN

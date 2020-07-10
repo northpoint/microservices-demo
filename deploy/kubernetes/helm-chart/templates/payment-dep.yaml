@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: weaveworksdemos/payment:0.4.3
+        image: {{ .Values.images.payment }}
         resources:
           limits:
             cpu: 100m

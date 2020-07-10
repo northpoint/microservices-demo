@@ -11,3 +11,15 @@ frontend:
 loadtest:
     replicas: 2
     enabled: false
+images:
+    shipping: weaveworksdemos/shipping:0.4.8
+    user: weaveworksdemos/user:0.4.4
+    userdb: weaveworksdemos/user-db:0.3.0
+    queuemaster: weaveworksdemos/queue-master:0.3.1
+    payment: weaveworksdemos/payment:0.4.3
+    orders: weaveworksdemos/orders:0.4.7
+    loadtest: weaveworksdemos/load-test
+    frontend: weaveworksdemos/front-end:0.3.12
+    catalogue: weaveworksdemos/catalogue:0.3.5
+    cataloguedb: weaveworksdemos/catalogue-db:0.3.0
+    carts: weaveworksdemos/carts:0.4.8

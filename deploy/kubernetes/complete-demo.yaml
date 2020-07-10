@@ -68,7 +68,7 @@ spec:
     spec:
       containers:
       - name: carts
-        image: weaveworksdemos/carts:0.4.8
+        image: kubeinnovationacr.azurecr.io/carts:1.0
         ports:
          - containerPort: 80
         env:
@@ -94,6 +94,9 @@ spec:
             medium: Memory
       nodeSelector:
         beta.kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: acr-secret
+
 ---
 apiVersion: v1
 kind: Service
@@ -213,7 +216,7 @@ spec:
     spec:
       containers:
       - name: front-end
-        image: weaveworksdemos/front-end:0.3.12
+        image: kubeinnovationacr.azurecr.io/front-end:1.0
         resources:
           requests:
             cpu: 100m
@@ -229,6 +232,8 @@ spec:
           readOnlyRootFilesystem: true
       nodeSelector:
         beta.kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
@@ -238,7 +243,7 @@ metadata:
     name: front-end
   namespace: sock-shop
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8079
@@ -316,7 +321,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: weaveworksdemos/orders:0.4.7
+        image: kubeinnovationacr.azurecr.io/orders:1.0
         env:
          - name: ZIPKIN
            value: zipkin.jaeger.svc.cluster.local
@@ -342,6 +347,8 @@ spec:
             medium: Memory
       nodeSelector:
         beta.kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
@@ -420,11 +427,14 @@ spec:
     spec:
       containers:
       - name: queue-master
-        image: weaveworksdemos/queue-master:0.3.1
+        image: kubeinnovationacr.azurecr.io/queue-master:1.0
         ports:
         - containerPort: 80
       nodeSelector:
         beta.kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: acr-secret
+      
 ---
 apiVersion: v1
 kind: Service
@@ -506,7 +516,7 @@ spec:
     spec:
       containers:
       - name: shipping
-        image: weaveworksdemos/shipping:0.4.8
+        image: kubeinnovationacr.azurecr.io/shipping:1.0
         env:
          - name: ZIPKIN
            value: zipkin.jaeger.svc.cluster.local
@@ -532,6 +542,8 @@ spec:
             medium: Memory
       nodeSelector:
         beta.kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
