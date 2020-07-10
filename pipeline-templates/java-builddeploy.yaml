@@ -16,7 +16,7 @@ jobs:
     - task: Maven@3
       displayName: 'Maven: building Java app'
       inputs:
-        mavenPomFile: ../pom.xml'
+        mavenPomFile: '../pom.xml'
         jdkVersionOption: 1.8
         goals: package
 
