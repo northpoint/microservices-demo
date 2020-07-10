@@ -19,14 +19,3 @@ jobs:
         mavenPomFile: '../pom.xml'
         jdkVersionOption: 1.8
         goals: package
-
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: ${{ parameters.acrRepo }}
-        dockerfile: ${{ parameters.dockerfilePath }}
-        containerRegistry: ${{ parameters.containerRegistrySvcConn }}
-        tags: ${{ parameters.tag }}
-        buildContext: ${{ parameters.buildContext }}
-
