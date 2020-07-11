@@ -1,8 +1,8 @@
 parameters:
 - name: tag
   default: 1.0
-- name: acrRepo
-  default: ''
+- name: goals
+  default: package
 - name: mavenPomFile
   default: ''
 - name: jdkVersionOption
@@ -18,6 +18,6 @@ jobs:
       inputs:
         mavenPomFile: ${{ parameters.mavenPomFile }}
         jdkVersionOption: ${{ parameters.jdkVersionOption }}
-        goals: package
+        goals: ${{ parameters.goals }}
         buildContext: ${{ parameters.buildContext }}
         tag: ${{ parameters.tag }}
