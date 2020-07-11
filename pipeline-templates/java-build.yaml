@@ -1,0 +1,23 @@
+parameters:
+- name: tag
+  default: 1.0
+- name: acrRepo
+  default: ''
+- name: mavenPomFile
+  default: ''
+- name: jdkVersionOption
+  default: 1.8
+- name: buildContext    # build context for docker build, depends on service
+  default: '**'
+
+jobs:
+- job: Doc
+  steps:
+    - task: Maven@3
+      displayName: 'Maven: building Java app'
+      inputs:
+        mavenPomFile: ${{ parameters.mavenPomFile }}
+        jdkVersionOption: ${{ parameters.jdkVersionOption }}
+        goals: package
+        buildContext: ${{ parameters.buildContext }}
+        tag: ${{ parameters.tag }}
