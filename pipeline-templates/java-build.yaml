@@ -11,7 +11,7 @@ parameters:
   default: '**'
 
 jobs:
-- job: Maven Package
+- job: MavenPackage
   steps:
     - task: Maven@3
       displayName: 'Maven: building Java app'
