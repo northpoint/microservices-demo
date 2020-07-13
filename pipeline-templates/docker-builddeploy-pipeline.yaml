@@ -6,7 +6,7 @@ parameters:
 - name: dockerfilePath
   default: ''
 - name: containerRegistrySvcConn  # acr svc conn
-  default: 'kevacr-svcconn'
+  default: 'acr-svcconn'
 - name: buildContext    # build context for docker build, depends on service
   default: '**'
 
