@@ -6,7 +6,7 @@ parameters:
 - name: image # new deployed image (overwriting the image value in helm)
   default: ''
 - name: containerRegistry # container registry (overwriting the registry in helm)
-  default: 'kevtestacr.azurecr.io'
+  default: 'kubefoundationacr.azurecr.io'
 
 jobs:
 - job: HelmDeploy
