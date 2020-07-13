@@ -1,6 +1,6 @@
 parameters:
 - name: kubernetesSvcConn
-  default: 'KubeInovAKS'
+  default: 'aks-svcconn'
 - name: serviceName # microservice name (overwriting image.<serviceName> in helm)
   default: ''
 - name: image # new deployed image (overwriting the image value in helm)
