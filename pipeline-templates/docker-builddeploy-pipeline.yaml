@@ -9,10 +9,15 @@ parameters:
   default: 'acr-svcconn'
 - name: buildContext    # build context for docker build, depends on service
   default: '**'
+- name: artifact
+  default: ''
 
 jobs:
 - job: DockerBuild
   steps:
+    - download: current
+      artifact: ${{ parameters.artifact }}
+
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
