@@ -1,14 +1,10 @@
 parameters:
-- name: tag
-  default: 1.0
 - name: goals
   default: package
 - name: mavenPomFile
   default: ''
 - name: jdkVersionOption
   default: 1.8
-- name: buildContext    # build context for docker build, depends on service
-  default: ''
 
 jobs:
 - job: MavenPackage
@@ -19,8 +15,6 @@ jobs:
         mavenPomFile: ${{ parameters.mavenPomFile }}
         jdkVersionOption: ${{ parameters.jdkVersionOption }}
         goals: ${{ parameters.goals }}
-        buildContext: ${{ parameters.buildContext }}
-        tag: ${{ parameters.tag }}
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar
