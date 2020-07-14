@@ -22,8 +22,5 @@ jobs:
         buildContext: ${{ parameters.buildContext }}
         tag: ${{ parameters.tag }}
 
-    - task: PublishBuildArtifacts@1
-      displayName: Publish jar
-      inputs:
-        PathtoPublish: '/target'
-        ArtifactName: 'jar'
+    - publish: $(System.DefaultWorkingDirectory)/target
+      artifact: jar
