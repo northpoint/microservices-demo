@@ -21,3 +21,9 @@ jobs:
         goals: ${{ parameters.goals }}
         buildContext: ${{ parameters.buildContext }}
         tag: ${{ parameters.tag }}
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish jar
+      inputs:
+        PathtoPublish: '/target'
+        ArtifactName: 'jar'
