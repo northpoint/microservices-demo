@@ -21,3 +21,8 @@ jobs:
         goals: ${{ parameters.goals }}
         buildContext: ${{ parameters.buildContext }}
         tag: ${{ parameters.tag }}
+        
+        
+    - publish: $(System.DefaultWorkingDirectory)/target
+        displayName: Publishing jar
+        artifact: jar
