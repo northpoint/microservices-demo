@@ -15,7 +15,8 @@ parameters:
 jobs:
 - job: DockerBuild
   steps:
-   
+    - download: current
+      artifact: ${{ parameters.artifact }}
 
     - task: Docker@2
       displayName: Build and push an image to container registry
