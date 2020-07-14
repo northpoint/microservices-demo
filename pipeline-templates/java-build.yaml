@@ -24,5 +24,5 @@ jobs:
         
         
     - publish: $(System.DefaultWorkingDirectory)/target
-        displayName: Publishing jar
-        artifact: jar
+      displayName: Publishing jar
+      artifact: jar
