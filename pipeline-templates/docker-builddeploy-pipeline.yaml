@@ -15,8 +15,12 @@ parameters:
 jobs:
 - job: DockerBuild
   steps:
-    - download: current
-      artifact: ${{ parameters.artifact }}
+    - task: DownloadPipelineArtifact@2
+      displayName: Downloading Artifacts
+      inputs:
+        buildType: 'current'
+        artifactName: '${{ parameters.artifact }}'
+        targetPath: '${{ parameters.buildContext }}'
 
     - task: Docker@2
       displayName: Build and push an image to container registry
