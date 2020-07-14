@@ -1,0 +1,37 @@
+parameters:
+- name: kubernetesSvcConn # kubernetes svc conn
+  default: 'aks-svcconn'
+- name: serviceName # microservice name (overwriting image.<serviceName> in helm)
+  default: ''
+- name: image # new deployed image (overwriting the image value in helm)
+  default: ''
+- name: containerRegistry # container registry (overwriting the registry in helm)
+  default: 'kubefoundationacr.azurecr.io'
+
+jobs:
+- job: HelmDeploy
+  steps:
+  - checkout: microservicesdemo # checks out template yaml in microservices-demo
+
+  - task: Bash@3
+    displayName: Downloads dependencies from requirements.yaml
+    inputs:
+      targetType: 'inline'
+      script: 'helm dependency update ./deploy/kubernetes/helm-chart'
+      
+  - task: HelmDeploy@0
+    displayName: Deploy microservices demo
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: './deploy/kubernetes/helm-chart/'
+      releaseName: 'microservices-demo'
+      failOnStderr: false # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/helm-deploy?view=azure-devops#when-using-helm-3-if-systemdebug-is-set-to-true-and-helm-upgrade-is-the-command-being-used-the-pipeline-fails-even-though-the-upgrade-was-successful
+      arguments: >
+        --create-namespace
+        --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
+        --reuse-values   
+
+       # make sure we dont reset to default values in helm for other services

@@ -1,0 +1,21 @@
+parameters:
+- name: goals
+  default: package
+- name: mavenPomFile
+  default: ''
+- name: jdkVersionOption
+  default: 1.8
+
+jobs:
+- job: MavenPackage
+  steps:
+    - task: Maven@3
+      displayName: 'Maven: building Java app'
+      inputs:
+        mavenPomFile: ${{ parameters.mavenPomFile }}
+        jdkVersionOption: ${{ parameters.jdkVersionOption }}
+        goals: ${{ parameters.goals }}
+
+    - publish: $(System.DefaultWorkingDirectory)/target
+      displayName: Publishing jar
+      artifact: jar
