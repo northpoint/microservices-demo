@@ -14,8 +14,14 @@ variables:
   replicas: 2
   
 steps:
+  - task: Bash@3
+    displayName: Downloads dependencies from requirements.yaml
+    inputs:
+      targetType: 'inline'
+      script: 'helm dependency update ./deploy/kubernetes/helm-chart'
+
   - task: HelmDeploy@0
-    displayName: Deploy microservices demo
+    displayName: Enabling load test
     inputs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection: $(kubernetesSvcConn)
