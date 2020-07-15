@@ -1,0 +1,30 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+     
+variables:
+  kubernetesSvcConn: 'aks-svcconn'
+  replicas: 2
+  
+steps:
+  - task: HelmDeploy@0
+    displayName: Deploy microservices demo
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection: $(kubernetesSvcConn)
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: './deploy/kubernetes/helm-chart/'
+      releaseName: 'microservices-demo'
+      failOnStderr: false # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/helm-deploy?view=azure-devops#when-using-helm-3-if-systemdebug-is-set-to-true-and-helm-upgrade-is-the-command-being-used-the-pipeline-fails-even-though-the-upgrade-was-successful
+      arguments: >
+        --set loadtest.enabled=true,loadtest.replicas=$(replicas)
+        --reuse-values   
+      
