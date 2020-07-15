@@ -12,6 +12,7 @@ pool:
 variables:
   kubernetesSvcConn: 'aks-svcconn'
   replicas: 2
+  # enabled: true  - use top right variables to control
   
 steps:
   - task: Bash@3
@@ -31,6 +32,6 @@ steps:
       releaseName: 'microservices-demo'
       failOnStderr: false # https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/helm-deploy?view=azure-devops#when-using-helm-3-if-systemdebug-is-set-to-true-and-helm-upgrade-is-the-command-being-used-the-pipeline-fails-even-though-the-upgrade-was-successful
       arguments: >
-        --set loadtest.enabled=true,loadtest.replicas=$(replicas)
+        --set loadtest.enabled=$(enabled),loadtest.replicas=$(replicas)
         --reuse-values   
       
