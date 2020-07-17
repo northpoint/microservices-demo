@@ -1,0 +1,48 @@
+trigger: none
+pr: none
+
+variables:  
+  # service connection for Kube
+  kubernetesServiceConnection: 'aks-svcconn'
+
+stages:
+- stage: CalicoctlSetup
+  displayName: Calicoctl Setup
+  jobs:  
+  - job: CalicoctlSetup
+    steps:
+# https://docs.projectcalico.org/getting-started/clis/calicoctl/install    
+
+    - task: Kubernetes@1
+      displayName: "Adding calicoctl into kube-system"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesServiceConnection)
+        command: 'apply'
+        arguments: '-f https://docs.projectcalico.org/manifests/calicoctl.yaml'
+
+## wait for calicoctl to be ready so we can use it in next task
+    - task: Kubernetes@1
+      displayName: Waiting for calicoctl ready
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesServiceConnection)
+        namespace: 'kube-system'
+        command: 'wait'
+        arguments: '--for=condition=ready pod/calicoctl -n kube-system'
+
+
+## currently calico cannot provision resources via kubectl, needs to be done through calicoctl        
+    - task: Kubernetes@1
+      displayName: "Logging into kubectl"
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesServiceConnection)
+        command: 'login'
+        
+    # we'll use bash to redirect our yaml into the pod
+    - task: Bash@3
+      displayName: "Executing calicoctl and applying global network policies"
+      inputs:
+        targetType: 'inline'
+        script: 'kubectl exec -ti -n kube-system calicoctl -- /calicoctl apply -f - < ./network-policies/global-network-policies.yaml'

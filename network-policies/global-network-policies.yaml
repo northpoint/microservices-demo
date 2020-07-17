@@ -1,0 +1,88 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: block-vm-metadata-gnp
+spec:
+  order: 100
+  types:
+  - Egress
+  egress:
+  - action: Deny
+    destination:
+      nets: 
+      - 169.254.169.254/32
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: default-block-ssh-gnp
+spec:
+  order: 100
+  types:
+  - Ingress
+  ingress:
+  - action: Deny
+    protocol: TCP
+    destination:
+      ports:
+      - 22
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: allow-ingress-kubesystem-gnp
+spec:
+  order: 4000
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+    destination:
+      namespaceSelector: projectcalico.org/name == 'kube-system'
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: default-allow-egress-gnp
+spec:
+  order: 5000
+  types:
+  - Egress
+  egress:
+  - action: Allow
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: default-allow-ingress-gnp
+spec:
+  order: 5000
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+---
+# apiVersion: projectcalico.org/v3
+# kind: GlobalNetworkPolicy
+# metadata:
+#   name: default-block-egress-gnp
+# spec:
+#   order: 5000
+#   types:
+#   - Egress
+#   egress:
+#   - action: Deny
+---
+# apiVersion: projectcalico.org/v3
+# kind: GlobalNetworkPolicy
+# metadata:
+#   name: default-block-ingress-gnp
+# spec:
+#   order: 5000
+#   types:
+#   - Ingress
+#   ingress:
+#   - action: Deny
+---
+
+  
