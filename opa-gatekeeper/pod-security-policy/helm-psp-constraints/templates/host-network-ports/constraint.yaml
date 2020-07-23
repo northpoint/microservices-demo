@@ -8,7 +8,7 @@ spec:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
   parameters:
-    hostNetwork: true
-    min: 80
-    max: 9000
+    hostNetwork: false
