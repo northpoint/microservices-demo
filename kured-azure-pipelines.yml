@@ -40,4 +40,4 @@ stages:
           --create-namespace
           --set configuration.startTime="0:00"
           --set configuration.rebootDays="{sa\,su}"
-          --set configuration.timeZone="America/New York"
+          --set configuration.timeZone="America/New_York"
