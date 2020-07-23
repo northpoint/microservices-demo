@@ -10,5 +10,5 @@ spec:
         kinds: ["Pod"]
   parameters:
     forbiddenSysctls:
-    # - "*" # * may be used to forbid all sysctls
-    - kernel.*
+    - "*" # * may be used to forbid all sysctls
+    # - kernel.*
