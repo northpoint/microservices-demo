@@ -8,6 +8,8 @@ spec:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
   parameters:
     volumes:
     # - "*" # * may be used to allow all volume types
