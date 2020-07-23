@@ -1,0 +1,43 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: KuredDeploy
+  displayName: Kured Deploy
+  jobs:  
+  - job: Kured
+    steps:
+    - task: HelmDeploy@0
+      displayName: Ingress nginx helm repo
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add kured https://weaveworks.github.io/kured'
+
+    - task: HelmDeploy@0
+      displayName: Kured Deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        namespace: 'kured'
+        command: 'upgrade'
+        chartType: 'Name'
+        chartName: 'kured/kured'
+        releaseName: 'kured'
+        arguments: >
+          --create-namespace
+          --set configuration.startTime="0:00"
+          --set configuration.rebootDays="{sa\,su}"
+          --set configuration.timeZone="America/New York"
