@@ -3,6 +3,7 @@ kind: K8sPSPAllowedUsers
 metadata:
   name: psp-pods-allowed-user-ranges
 spec:
+  enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]

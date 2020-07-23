@@ -3,6 +3,7 @@ kind: K8sPSPFlexVolumes
 metadata:
   name: psp-flexvolume-drivers
 spec:
+  enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]

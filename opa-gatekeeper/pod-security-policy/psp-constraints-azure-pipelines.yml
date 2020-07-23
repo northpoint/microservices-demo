@@ -11,6 +11,11 @@ pool:
      
 variables:
   kubernetesSvcConn: 'aks-svcconn'
+  # enforcementAction: dryrun or deny
+  # set this at top right variables so we can change it without commmitting 
+  # dryrun for testing constraints, no enforcement
+  # deny will enforce constraint
+  # default dryrun
   
 steps:
   - task: HelmDeploy@0
@@ -22,3 +27,6 @@ steps:
       chartType: 'FilePath'
       chartPath: './opa-gatekeeper/pod-security-policy/helm-psp-constraints/'
       releaseName: 'gatekeeper-psp-constraints'
+      arguments: >
+        --create-namespace
+        --set enforcementAction=$(enforcementAction)

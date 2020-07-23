@@ -3,6 +3,7 @@ kind: K8sPSPSeccomp
 metadata:
   name: psp-seccomp
 spec:
+  enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]

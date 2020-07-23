@@ -3,6 +3,7 @@ kind: K8sPSPFSGroup
 metadata:
   name: psp-fsgroup
 spec:
+  enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]

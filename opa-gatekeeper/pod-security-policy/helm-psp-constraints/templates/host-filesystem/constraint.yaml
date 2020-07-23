@@ -3,6 +3,7 @@ kind: K8sPSPHostFilesystem
 metadata:
   name: psp-host-filesystem
 spec:
+  enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]

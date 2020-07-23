@@ -1,6 +1,27 @@
 # Copied from gatekeeper repo
 # pod-security-policies
 
+Kind / Constraint Name
+
+K8sPSPAllowPrivilegeEscalationContainer psp-allow-privilege-escalation-container
+K8sPSPAppArmor psp-apparmor
+K8sPSPCapabilities capabilities-demo
+K8sPSPFlexVolumes psp-flexvolume-drivers
+K8sPSPFSGroup psp-fsgroup
+K8sPSPHostFilesystem psp-host-filesystem
+K8sPSPHostNamespace psp-host-namespace
+K8sPSPHostNetworkingPorts psp-host-network-ports
+K8sPSPPrivilegedContainer psp-privileged-container
+K8sPSPProcMountpsp-proc-mount psp-proc-mount
+K8sPSPReadOnlyRootFilesystem psp-readonlyrootfilesystem
+K8sPSPForbiddenSysctls psp-forbidden-sysctls
+K8sPSPSeccomp psp-seccomp
+K8sPSPSELinuxV2 psp-selinux-v2
+K8sPSPAllowedUsers psp-pods-allowed-user-ranges
+K8sPSPVolumeTypes psp-volume-types
+
+
+--- 
 This repo contains common policies needed in Pod Security Policy but implemented as Constraints and Constraint Templates with Gatekeeper.
 
 A [Pod Security Policy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) is a cluster-level resource that controls security
