@@ -1,15 +1,14 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sPSPCapabilities
 metadata:
-  name: capabilities-demo
+  name: psp-capabilities
 spec:
   enforcementAction: {{ .Values.enforcementAction }}
   match:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
-    namespaces:
-      - "production"
+    excludedNamespaces:
+      - kube-system
   parameters:
-    allowedCapabilities: ["something"]
-    requiredDropCapabilities: ["must_drop"]
+    requiredDropCapabilities: ["ALL"]
