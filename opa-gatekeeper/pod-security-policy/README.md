@@ -1,18 +1,18 @@
 # Copied from gatekeeper repo
 # pod-security-policies
 
-Kind / Constraint Name
+Kind / Constraint Name for querying statuses quickly:
 
 K8sPSPAllowPrivilegeEscalationContainer psp-allow-privilege-escalation-container
 K8sPSPAppArmor psp-apparmor
-K8sPSPCapabilities capabilities-demo
+K8sPSPCapabilities psp-capabilities
 K8sPSPFlexVolumes psp-flexvolume-drivers
 K8sPSPFSGroup psp-fsgroup
 K8sPSPHostFilesystem psp-host-filesystem
 K8sPSPHostNamespace psp-host-namespace
 K8sPSPHostNetworkingPorts psp-host-network-ports
 K8sPSPPrivilegedContainer psp-privileged-container
-K8sPSPProcMountpsp-proc-mount psp-proc-mount
+K8sPSPProcMount psp-proc-mount
 K8sPSPReadOnlyRootFilesystem psp-readonlyrootfilesystem
 K8sPSPForbiddenSysctls psp-forbidden-sysctls
 K8sPSPSeccomp psp-seccomp

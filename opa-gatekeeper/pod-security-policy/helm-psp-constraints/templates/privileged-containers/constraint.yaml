@@ -9,4 +9,3 @@ spec:
         kinds: ["Pod"]
     excludedNamespaces:
       - kube-system
-      - kured
