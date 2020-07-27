@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: zipkin-cron
-        image: openzipkin/zipkin-dependencies:1.4.0
+        image: openzipkin/zipkin-dependencies:latest
         env:
         - name: STORAGE_TYPE
           value: mysql
