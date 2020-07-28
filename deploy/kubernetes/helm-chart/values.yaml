@@ -5,12 +5,12 @@ java:
     options: -Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
 zipkin: 
     enabled:  false
-    url: zipkin.default.svc.cluster.local
+    url: zipkin.sock-shop.svc.cluster.local
 frontend:
     replicas: 1
 loadtest:
     replicas: 2
-    enabled: true
+    enabled: false
     clients: 5
     hatchrate: 5
     runtime: 2m
