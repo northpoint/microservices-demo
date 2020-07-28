@@ -7,6 +7,8 @@ parameters:
   default: ''
 - name: containerRegistry # container registry (overwriting the registry in helm)
   default: 'kubefoundationacr.azurecr.io'
+- name: arguments
+  default: ''
 
 jobs:
 - job: HelmDeploy
@@ -32,6 +34,7 @@ jobs:
       arguments: >
         --create-namespace
         --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
-        --reuse-values   
+        --reuse-values
+        ${{ parameters.arguments }}   
 
        # make sure we dont reset to default values in helm for other services
