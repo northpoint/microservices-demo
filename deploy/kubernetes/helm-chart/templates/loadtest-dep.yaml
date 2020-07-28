@@ -16,5 +16,5 @@ spec:
       - name: load-test
         image: {{ .Values.images.loadtest }}
         command: ["/bin/sh"]
-        args: ["-c", "while true; do locust --host http://front-end.sock-shop.svc.cluster.local -f /config/locustfile.py --clients {{ .Values.loadtest.clients }} --hatch-rate {{ .Values.loadtest.hatchrate }} --num-request {{ .Values.loadtest.requests }} --no-web; done"]
+        args: ["-c", "while true; do locust --host http://front-end.sock-shop.svc.cluster.local -f /config/locustfile.py --clients {{ .Values.loadtest.clients }} --hatch-rate {{ .Values.loadtest.hatchrate }} --run-time {{ .Values.loadtest.runtime }} --no-web; done"]
 {{- end }}

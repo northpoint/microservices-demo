@@ -10,10 +10,10 @@ frontend:
     replicas: 1
 loadtest:
     replicas: 2
-    enabled: false
+    enabled: true
     clients: 5
     hatchrate: 5
-    requests: 100
+    runtime: 2m
 images:
     shipping: weaveworksdemos/shipping:0.4.8
     user: weaveworksdemos/user:0.4.4
