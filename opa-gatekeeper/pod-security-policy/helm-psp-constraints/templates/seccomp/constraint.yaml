@@ -1,0 +1,13 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sPSPSeccomp
+metadata:
+  name: psp-seccomp
+spec:
+  enforcementAction: {{ .Values.enforcementAction }}
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    allowedProfiles:
+    - runtime/default # best practice create own profiles

@@ -1,0 +1,32 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+     
+variables:
+  kubernetesSvcConn: 'aks-svcconn'
+  # enforcementAction: dryrun or deny
+  # set this at top right variables so we can change it without commmitting 
+  # dryrun for testing constraints, no enforcement
+  # deny will enforce constraint
+  # default dryrun
+  
+steps:
+  - task: HelmDeploy@0
+    displayName: Deploying PSP Constraints
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection: $(kubernetesSvcConn)
+      command: 'upgrade'
+      chartType: 'FilePath'
+      chartPath: './opa-gatekeeper/pod-security-policy/helm-psp-constraints/'
+      releaseName: 'gatekeeper-psp-constraints'
+      arguments: >
+        --create-namespace
+        --set enforcementAction=$(enforcementAction)
