@@ -1,0 +1,32 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: PrometheusOperatorDeploy
+  displayName: Prometheus Operator Deploy
+  jobs:  
+  - job: HelmRepo
+    steps:
+    - task: HelmDeploy@0
+      displayName: Prom Operator Deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        namespace: 'monitoring'
+        command: 'upgrade'
+        chartType: 'Name'
+        chartName: 'stable/prometheus-operator'
+        releaseName: 'monitoring'
+        arguments: >
+          --create-namespace
