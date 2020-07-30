@@ -13,11 +13,29 @@ variables:
   kubernetesSvcConn: 'aks-svcconn'
 
 stages:
-- stage: PrometheusOperatorDeploy
-  displayName: Prometheus Operator Deploy
+- stage: PromOperatorDeploy
+  displayName: Prometheus Operator Deplooy
   jobs:  
-  - job: HelmRepo
+  - job: AddConfigMap
     steps:
+    - task: Kubernetes@1
+      displayName: Applying dashboards via configmap
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
+        namespace: 'monitoring'
+        command: 'apply'
+        arguments: '-f $(System.DefaultWorkingDirectory)/graphs/grafana-configmap.yaml'
+        
+  - job: PromOperatorDeploy
+    steps:
+    - task: HelmDeploy@0
+      displayName: Prom Operator Repo Add
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add stable https://kubernetes-charts.storage.googleapis.com'
     - task: HelmDeploy@0
       displayName: Prom Operator Deploy
       inputs:
@@ -28,5 +46,8 @@ stages:
         chartType: 'Name'
         chartName: 'stable/prometheus-operator'
         releaseName: 'monitoring'
+        failOnStderr: false # ignore crd warning
         arguments: >
           --create-namespace
+
+ 
