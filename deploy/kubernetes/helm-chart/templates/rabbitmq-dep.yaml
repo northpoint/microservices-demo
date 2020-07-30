@@ -1,11 +1,14 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq
   labels:
     name: rabbitmq
 spec:
+  selector:
+    matchLabels:
+      name: rabbitmq
   replicas: 1
   template:
     metadata:
