@@ -1,11 +1,14 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-db
   labels:
     name: user-db
 spec:
+  selector:
+    matchLabels:
+      name: user-db
   replicas: 1
   template:
     metadata:
