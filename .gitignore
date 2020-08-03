@@ -132,3 +132,4 @@ output-virtualbox-iso
 /graphs/__pycache__/
 /graphs/*.json
 deploy/kubernetes/helm-chart/charts/nginx-ingress-0.0.0-edge.tgz
+deploy/kubernetes/helm-chart/requirements.lock
