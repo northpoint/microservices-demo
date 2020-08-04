@@ -12,6 +12,7 @@ pool:
 variables:
   kubernetesSvcConn: 'aks-svcconn'
 
+
 stages:
 - stage: PromOperatorDeploy
   displayName: Prometheus Operator Deplooy
@@ -49,5 +50,6 @@ stages:
         failOnStderr: false # ignore crd warning
         arguments: >
           --create-namespace
+          --set grafana.plugins[0]=grafana-piechart-panel
 
  
