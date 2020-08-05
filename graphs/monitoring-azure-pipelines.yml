@@ -33,6 +33,7 @@ jobs:
       namespace: 'monitoring'
       chartPath: './graphs/grafana-configmaps/'
       releaseName: 'grafana-configmaps'
+      failOnStderr: true
       arguments: >
         --set subscriptionId:$(subscriptionId)
         --set tenantId:$(tenantId)
