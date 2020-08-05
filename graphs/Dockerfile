@@ -1,4 +1,4 @@
-FROM python:3.4-alpine
+FROM python:3.5-alpine
 
 MAINTAINER Container Solutions info@container-solutions.com
 
@@ -10,10 +10,10 @@ RUN mkdir /root/.parallel && \
     touch /root/.parallel/will-cite
 
 # Install pip
-RUN curl https://bootstrap.pypa.io/get-pip.py | python
+RUN curl https://bootstrap.pypa.io/3.2/get-pip.py | python
 
 # Install grafanalib
-RUN pip install git+https://github.com/weaveworks/grafanalib@82556ddfbbd6134837d280a7999d35c45cc3c87e
+RUN pip install git+https://github.com/weaveworks/grafanalib
 
 WORKDIR /opt/code
 
