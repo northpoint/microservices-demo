@@ -20,7 +20,7 @@ variables:
   # secret: ''
 
 
-  steps:
+steps:
   - task: HelmDeploy@0
     displayName: Deploying additional configmaps
     inputs:
