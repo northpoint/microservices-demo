@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     grafana_datasource: "1"
-  name: azure-configmap
+  name: azure-datasource-configmap
   namespace: monitoring
 data:
   azure-datasource.yaml: |
