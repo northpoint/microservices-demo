@@ -33,11 +33,11 @@ steps:
       releaseName: 'grafana-configmaps'
       failOnStderr: true
       arguments: >
-        --set subscriptionId:$(subscriptionId)
-        --set tenantId:$(tenantId)
-        --set clientId:$(clientId)
-        --set workspace:$(workspace)
-        --set secret:$(secret)
+        --set subscriptionId=$(subscriptionId)
+        --set tenantId=$(tenantId)
+        --set clientId=$(clientId)
+        --set workspace=$(workspace)
+        --set secret=$(secret)
   - task: HelmDeploy@0
     displayName: Prom Operator Repo Add
     inputs:
