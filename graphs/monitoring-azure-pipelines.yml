@@ -23,8 +23,8 @@ variables:
 jobs:  
 - job: AddConfigMap
   steps:
-  - task: Kubernetes@1
-    displayName: Adding additional configmaps
+  - task: HelmDeploy@0
+    displayName: Deploying additional configmaps
     inputs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
