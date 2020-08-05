@@ -20,8 +20,6 @@ variables:
   # secret: ''
 
 
-jobs:  
-- job: AddConfigMap
   steps:
   - task: HelmDeploy@0
     displayName: Deploying additional configmaps
@@ -40,9 +38,6 @@ jobs:
         --set clientId:$(clientId)
         --set workspace:$(workspace)
         --set secret:$(secret)
-
-- job: PromOperatorDeploy
-  steps:
   - task: HelmDeploy@0
     displayName: Prom Operator Repo Add
     inputs:
