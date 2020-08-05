@@ -11,9 +11,14 @@ pool:
 
 variables:
   kubernetesSvcConn: 'aks-svcconn'
-  # tenantID: 
-  # clientID: 
-  # clientSecret:
+  
+  # ---- for grafana datasource
+  # subscriptionId: ''
+  # tenantId: ''
+  # clientId: ''
+  # workspace: ''
+  # secret: ''
+
 stages:
 - stage: PromOperatorDeploy
   displayName: Prometheus Operator Deplooy
@@ -21,14 +26,22 @@ stages:
   - job: AddConfigMap
     steps:
     - task: Kubernetes@1
-      displayName: Applying dashboards via configmap
+      displayName: Adding additional configmaps
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        chartType: 'FilePath'
         namespace: 'monitoring'
-        command: 'apply'
-        arguments: '-f $(System.DefaultWorkingDirectory)/graphs/sock-shop-dashboards-cm.yaml'
-        
+        chartPath: './graphs/grafana-configmaps/'
+        releaseName: 'grafana-configmaps'
+        arguments: >
+          --set subscriptionId:$(subscriptionId)
+          --set tenantId:$(tenantId)
+          --set clientId:$(clientId)
+          --set workspace:$(workspace)
+          --set secret:$(secret)
+
   - job: PromOperatorDeploy
     steps:
     - task: HelmDeploy@0
