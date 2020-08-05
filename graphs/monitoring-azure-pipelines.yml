@@ -11,8 +11,9 @@ pool:
 
 variables:
   kubernetesSvcConn: 'aks-svcconn'
-
-
+  # tenantID: 
+  # clientID: 
+  # clientSecret:
 stages:
 - stage: PromOperatorDeploy
   displayName: Prometheus Operator Deplooy
@@ -26,7 +27,7 @@ stages:
         kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
         namespace: 'monitoring'
         command: 'apply'
-        arguments: '-f $(System.DefaultWorkingDirectory)/graphs/grafana-configmap.yaml'
+        arguments: '-f $(System.DefaultWorkingDirectory)/graphs/sock-shop-dashboards-cm.yaml'
         
   - job: PromOperatorDeploy
     steps:
