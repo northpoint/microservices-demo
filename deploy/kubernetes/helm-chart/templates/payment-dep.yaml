@@ -1,11 +1,14 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment
   labels:
     name: payment
 spec:
+  selector:
+    matchLabels:
+      name: payment
   replicas: 1
   template:
     metadata:

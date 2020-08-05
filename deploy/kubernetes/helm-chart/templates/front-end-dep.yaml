@@ -1,9 +1,12 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: front-end
 spec:
+  selector:
+    matchLabels:
+      name: front-end
   replicas: {{ .Values.frontend.replicas }}
   template:
     metadata:

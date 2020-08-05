@@ -1,11 +1,14 @@
 {{- if .Values.zipkin.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zipkin
   labels:
     name: zipkin
 spec:
+  selector:
+    matchLabels:
+      name: zipkin
   replicas: 1
   template:
     metadata:

@@ -1,0 +1,49 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8spspcapabilities
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sPSPCapabilities
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            requiredDropCapabilities:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package capabilities
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.containers[_]
+          missing_drop_capabilities(container)
+          msg := sprintf("container <%v> is not dropping all capabilities. Container must drop %v", [container.name, input.parameters.requiredDropCapabilities])
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec.initContainers[_]
+          missing_drop_capabilities(container)
+          msg := sprintf("init container <%v> is not dropping all capabilities. Container must drop %v", [container.name, input.parameters.requiredDropCapabilities])
+        }
+
+        missing_drop_capabilities(container) {
+          must_drop := {c | c := input.parameters.requiredDropCapabilities[_]}
+          dropped := {c | c := upper(container.securityContext.capabilities.drop[_])}
+          count(must_drop - dropped) > 0
+        }
+
+        get_default(obj, param, _default) = out {
+          out = obj[param]
+        }
+
+        get_default(obj, param, _default) = out {
+          not obj[param]
+          not obj[param] == false
+          out = _default
+        }
