@@ -24,7 +24,7 @@ data:
         logAnalyticsDefaultWorkspace: {{ .Values.workspace }}
         azureLogAnalyticsSameAs: true
         logAnalyticsSubscriptionId: {{ .Values.subscriptionId }}
-        logAnalyticsTenantId: {{ .Values.tentantId }}
+        logAnalyticsTenantId: {{ .Values.tenantId }}
         logAnalyticsClientId: {{ .Values.clientId }}
       keepCookies: []
       secureJsonData:
