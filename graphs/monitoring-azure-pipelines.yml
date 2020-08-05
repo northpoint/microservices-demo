@@ -19,51 +19,48 @@ variables:
   # workspace: ''
   # secret: ''
 
-stages:
-- stage: PromOperatorDeploy
-  displayName: Prometheus Operator Deplooy
-  jobs:  
-  - job: AddConfigMap
-    steps:
-    - task: Kubernetes@1
-      displayName: Adding additional configmaps
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
-        command: 'upgrade'
-        chartType: 'FilePath'
-        namespace: 'monitoring'
-        chartPath: './graphs/grafana-configmaps/'
-        releaseName: 'grafana-configmaps'
-        arguments: >
-          --set subscriptionId:$(subscriptionId)
-          --set tenantId:$(tenantId)
-          --set clientId:$(clientId)
-          --set workspace:$(workspace)
-          --set secret:$(secret)
 
-  - job: PromOperatorDeploy
-    steps:
-    - task: HelmDeploy@0
-      displayName: Prom Operator Repo Add
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: '$(kubernetesSvcConn)'
-        command: 'repo'
-        arguments: 'add stable https://kubernetes-charts.storage.googleapis.com'
-    - task: HelmDeploy@0
-      displayName: Prom Operator Deploy
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceConnection: '$(kubernetesSvcConn)'
-        namespace: 'monitoring'
-        command: 'upgrade'
-        chartType: 'Name'
-        chartName: 'stable/prometheus-operator'
-        releaseName: 'monitoring'
-        failOnStderr: false # ignore crd warning
-        arguments: >
-          --create-namespace
-          --set grafana.plugins[0]=grafana-piechart-panel
+jobs:  
+- job: AddConfigMap
+  steps:
+  - task: Kubernetes@1
+    displayName: Adding additional configmaps
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceEndpoint: '$(kubernetesSvcConn)'
+      command: 'upgrade'
+      chartType: 'FilePath'
+      namespace: 'monitoring'
+      chartPath: './graphs/grafana-configmaps/'
+      releaseName: 'grafana-configmaps'
+      arguments: >
+        --set subscriptionId:$(subscriptionId)
+        --set tenantId:$(tenantId)
+        --set clientId:$(clientId)
+        --set workspace:$(workspace)
+        --set secret:$(secret)
 
- 
+- job: PromOperatorDeploy
+  steps:
+  - task: HelmDeploy@0
+    displayName: Prom Operator Repo Add
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection: '$(kubernetesSvcConn)'
+      command: 'repo'
+      arguments: 'add stable https://kubernetes-charts.storage.googleapis.com'
+  - task: HelmDeploy@0
+    displayName: Prom Operator Deploy
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceConnection: '$(kubernetesSvcConn)'
+      namespace: 'monitoring'
+      command: 'upgrade'
+      chartType: 'Name'
+      chartName: 'stable/prometheus-operator'
+      releaseName: 'monitoring'
+      failOnStderr: false # ignore crd warning
+      arguments: >
+        --create-namespace
+        --set grafana.plugins[0]=grafana-piechart-panel
+
