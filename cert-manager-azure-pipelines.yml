@@ -1,0 +1,35 @@
+trigger: none
+pr: none
+
+variables:  
+  # service connection for Kube
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: CertManagerSetup
+  displayName: CertManager Setup
+  jobs:  
+  - job: CertManagerSetup
+    steps:
+
+    # https://cert-manager.io/docs/
+    - task: HelmDeploy@0
+      displayName: Certmanager helm repo
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add jetstack https://charts.jetstack.io'
+
+    - task: HelmDeploy@0
+      displayName: Certmanager update/deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        namespace: cert-manager
+        chartType: 'Name'
+        chartName: 'jetstack/cert-manager'
+        releaseName: 'cert-manager'
+        arguments: '--create-namespace --set installCRDs=true'
+
