@@ -14,6 +14,8 @@ loadtest:
     clients: 5
     hatchrate: 5
     runtime: 2m
+ingress:
+    host: eykubefoundation.westus2.cloudapp.azure.com
 images:
     shipping: weaveworksdemos/shipping:0.4.8
     user: weaveworksdemos/user:0.4.4

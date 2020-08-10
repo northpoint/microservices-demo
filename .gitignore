@@ -133,3 +133,5 @@ output-virtualbox-iso
 /graphs/*.json
 deploy/kubernetes/helm-chart/charts/nginx-ingress-0.0.0-edge.tgz
 deploy/kubernetes/helm-chart/requirements.lock
+deploy/kubernetes/helm-chart/charts/ingress-nginx-2.11.2.tgz
+deploy/kubernetes/helm-chart/charts/nginx-ingress-0.0.0-edge.tgz
