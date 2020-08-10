@@ -1,0 +1,35 @@
+trigger: none
+pr: none
+
+variables:  
+  # service connection for Kube
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: SonarQubeSetup
+  displayName: SonarQube Setup
+  jobs:  
+  - job: SonarQubeSetup
+    steps:
+
+    - task: HelmDeploy@0
+      displayName: SonarQube helm repo
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add oteemocharts https://oteemo.github.io/charts'
+
+    - task: HelmDeploy@0
+      displayName: SonarQube update/deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        namespace: sonarqube
+        chartType: 'Name'
+        chartName: 'oteemocharts/sonarqube'
+        releaseName: 'sonarqube'
+        arguments: >
+          --values ./sonarqube/sonarqube-overrides.yaml
+          --create-namespace

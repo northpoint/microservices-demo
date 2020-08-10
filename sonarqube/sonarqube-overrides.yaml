@@ -1,0 +1,9 @@
+livenessProbe:
+  sonarWebContext: /sonarqube/
+readinessProbe:
+  sonarWebContext: /sonarqube/
+sonarProperties:
+  sonar.web.context: /sonarqube
+elasticsearch:
+  configureNode: false
+  bootstrapChecks: false
