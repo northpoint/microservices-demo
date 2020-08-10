@@ -31,4 +31,4 @@ spec:
       - path: /sonarqube
         backend:
           serviceName: sonarqube-sonarqube
-          servicePort: 80
+          servicePort: 9000
