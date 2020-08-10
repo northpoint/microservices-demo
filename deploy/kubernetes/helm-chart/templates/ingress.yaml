@@ -25,3 +25,10 @@ spec:
         backend:
           serviceName: monitoring-grafana
           servicePort: 80
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /sonarqube
+        backend:
+          servicename: sonarqube-sonarqube
+          servicePort: 80
