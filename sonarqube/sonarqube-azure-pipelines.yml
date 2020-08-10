@@ -31,8 +31,5 @@ stages:
         chartName: 'oteemocharts/sonarqube'
         releaseName: 'sonarqube'
         arguments: >
-          --set livenessProbe.sonarWebContext=/sonarqube/
-          --set readinessProbe.sonarWebContext=/sonarqube/,sonarProperties."\"sonar\.web\.context\""=/sonarqube
-          --set elasticsearch.configureNode=false
-          --set elasticsearch.bootstrapChecks=false
+          --values ./sonarqube/sonarqube-overrides.yaml
           --create-namespace
