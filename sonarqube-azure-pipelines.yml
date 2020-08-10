@@ -18,5 +18,22 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: '$(kubernetesSvcConn)'
         command: 'repo'
-        arguments: 'add oteemocharts https://oteemo.github.io/charts
+        arguments: 'add oteemocharts https://oteemo.github.io/charts'
 
+    - task: HelmDeploy@0
+      displayName: SonarQube update/deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        namespace: sonarqube
+        chartType: 'Name'
+        chartName: 'oteemocharts/sonarqube'
+        releaseName: 'sonarqube'
+        arguments: >
+          --set livenessProbe.sonarWebContext=/sonarqube
+          --set readinessProbe.sonarWebContext=/sonarqube
+          --set sonarProperties."sonar\.web\.context"=/sonarqube
+          --set elasticsearch.configureNode=false
+          --set elasticsearch.bootstrapChecks=false
+          --create-namespace
