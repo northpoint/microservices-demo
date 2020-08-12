@@ -8,7 +8,7 @@ parameters:
 - name: projectKey
   default: ''
 - name: sonarQubeSvcConn
-  default: sq-svcconn
+  default: 'sq-svcconn'
 stages: 
 - stage: SecurityScan
   displayName: Security Scan
