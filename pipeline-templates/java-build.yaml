@@ -5,10 +5,17 @@ parameters:
   default: ''
 - name: jdkVersionOption
   default: 1.8
+- name: version
+  default: 'unknown'
 
 jobs:
 - job: MavenPackage
   steps:
+    - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
+      parameters:
+        scannerMode: 'Other'
+        projectVersion: ${{ parameters.version }}
+
     - task: Maven@3
       displayName: 'Maven: building Java app'
       inputs:
