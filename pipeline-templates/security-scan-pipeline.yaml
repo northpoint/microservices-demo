@@ -19,25 +19,25 @@ stages:
       displayName: SonarQube Preparing
       condition: eq('${{parameters.scannerMode }}', 'CLI')
       inputs:
-        SonarQube: '{{ parameters.sonarQubeSvcConn }}'
+        SonarQube: '${{ parameters.sonarQubeSvcConn }}'
         scannerMode: 'CLI'
         configMode: 'manual'
-        cliProjectKey: '{{ parameters.projectKey }}'
-        cliSources: '{{ parameters.cliSources }}'
+        cliProjectKey: '${{ parameters.projectKey }}'
+        cliSources: '${{ parameters.cliSources }}'
       
     - task: SonarQubePrepare@4 # prepare for msbuild
       displayName: SonarQube Preparing
       condition: eq('${{ parameters.scannerMode }}', 'MSBuild')
       inputs:
-        SonarQube: '{{ parameters.sonarQubeSvcConn }}'
+        SonarQube: '${{ parameters.sonarQubeSvcConn }}'
         scannerMode: 'MSBuild'
-        projectKey: '{{ parameters.projectKey }}'
+        projectKey: '${{ parameters.projectKey }}'
         
     - task: SonarQubePrepare@4 #prepare for maven
       displayName: SonarQube Preparing
       condition: eq('${{ parameters.scannerMode }}', 'Other')
       inputs:
-        SonarQube: '{{ parameters.sonarQubeSvcConn }}'
+        SonarQube: '${{ parameters.sonarQubeSvcConn }}'
         scannerMode: 'Other'
           
     - task: SonarQubeAnalyze@4
