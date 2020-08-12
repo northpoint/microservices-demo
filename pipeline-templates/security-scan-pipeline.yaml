@@ -9,9 +9,6 @@ parameters:
   default: ''
 - name: sonarQubeSvcConn
   default: 'sq-svcconn'
-- name: hostUrl
-  default: 'https://eykubefoundation.westus2.cloudapp.azure.com/sonarqube/'
-  
 stages: 
 - stage: SecurityScan
   displayName: Security Scan
@@ -42,7 +39,6 @@ stages:
       inputs:
         SonarQube: '${{ parameters.sonarQubeSvcConn }}'
         scannerMode: 'Other'
-        extraProperties: 'sonar.host.url=${{ parameters.hostUrl }}'
           
     - task: SonarQubeAnalyze@4
       displayName: SonarQube Analyzing
