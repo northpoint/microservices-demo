@@ -37,7 +37,11 @@ jobs:
     inputs:
       SonarQube: '${{ parameters.sonarQubeSvcConn }}'
       scannerMode: 'Other'
-        
+
+  - powershell: |
+      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
+      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
   - task: SonarQubeAnalyze@4
     displayName: SonarQube Analyzing
     condition: eq('${{ parameters.scannerMode }}', 'CLI')
