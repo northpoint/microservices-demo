@@ -22,7 +22,8 @@ jobs:
       configMode: 'manual'
       cliProjectKey: '${{ parameters.projectKey }}'
       cliSources: '${{ parameters.cliSources }}'
-      projectVersion: '${{ parameters.projectVersion }}'
+      cliProjectVersion: '${{ parameters.projectVersion }}'
+      
     
   - task: SonarQubePrepare@4 # prepare for msbuild
     displayName: SonarQube Preparing MSBuild
