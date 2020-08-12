@@ -8,6 +8,7 @@ parameters:
 
 jobs:
 - job: MavenPackage
+  dependsOn: SonarQube
   steps:
     - task: Maven@3
       displayName: 'Maven: building Java app'
