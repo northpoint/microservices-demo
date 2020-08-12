@@ -11,7 +11,7 @@ parameters:
   default: 'sq-svcconn'
  
 jobs:
-- job: SonarQubeScan
+- job: SonarQube
   steps:
   - task: SonarQubePrepare@4  # prepare for non msbuild/ maven source
     displayName: SonarQube Preparing
