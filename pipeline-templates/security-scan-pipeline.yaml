@@ -22,6 +22,7 @@ jobs:
       configMode: 'manual'
       cliProjectKey: '${{ parameters.projectKey }}'
       cliSources: '${{ parameters.cliSources }}'
+      projectVersion: ${{ parameters.projectVersion }}
     
   - task: SonarQubePrepare@4 # prepare for msbuild
     displayName: SonarQube Preparing MSBuild
@@ -30,6 +31,8 @@ jobs:
       SonarQube: '${{ parameters.sonarQubeSvcConn }}'
       scannerMode: 'MSBuild'
       projectKey: '${{ parameters.projectKey }}'
+      projectVersion: ${{ parameters.projectVersion }}
+ 
       
   - task: SonarQubePrepare@4 #prepare for maven
     displayName: SonarQube Preparing Maven
@@ -37,6 +40,7 @@ jobs:
     inputs:
       SonarQube: '${{ parameters.sonarQubeSvcConn }}'
       scannerMode: 'Other'
+      projectVersion: ${{ parameters.projectVersion }}
 
   - powershell: |
       $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
