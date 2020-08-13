@@ -10,11 +10,21 @@ jobs:
 - job: MavenPackage
   dependsOn: SonarQube
   steps:
+  
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'sq-svcconn'
+        scannerMode: 'Other'
+    - powershell: |
+        $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
+        Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+
     - task: Maven@3
       displayName: 'Maven: building Java app'
       inputs:
         mavenPomFile: ${{ parameters.mavenPomFile }}
-        jdkVersionOption: 1.8
+        jdkVersionOption: ${{ parameters.jdkVersionOption }}
         goals: ${{ parameters.goals }}
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
