@@ -10,7 +10,6 @@ parameters:
 
 jobs:
 - job: MavenPackage
-  dependsOn: SonarQube
   steps:
     - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
       parameters:
