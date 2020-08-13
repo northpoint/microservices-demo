@@ -10,9 +10,7 @@ parameters:
 - name: sonarQubeSvcConn
   default: 'sq-svcconn'
  
-jobs:
-- job: SonarQube
-  steps:
+steps:
   - task: SonarQubePrepare@4  # prepare for non msbuild/ maven source
     displayName: SonarQube Preparing
     condition: eq('${{parameters.scannerMode }}', 'CLI')
@@ -50,13 +48,3 @@ jobs:
   - task: SonarQubeAnalyze@4
     displayName: SonarQube Analyzing
     condition: eq('${{ parameters.scannerMode }}', 'CLI')
-
-- job: AnotherScan
-  steps:
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        # Write your commands here
-        
-        echo 'Hello world'
