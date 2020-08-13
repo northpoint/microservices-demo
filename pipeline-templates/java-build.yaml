@@ -14,7 +14,6 @@ jobs:
     - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
       parameters:
         scannerMode: 'Other'
-        projectVersion: ${{ parameters.version }}
 
     - task: Maven@3
       displayName: 'Maven: building Java app'
@@ -24,6 +23,7 @@ jobs:
         goals: ${{ parameters.goals }}
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
+        options: '-Dversion=${{ parameters.version }}'
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar
