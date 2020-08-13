@@ -8,7 +8,6 @@ parameters:
 
 jobs:
 - job: MavenPackage
-  dependsOn: SonarQube
   steps:
   
     - task: SonarQubePrepare@4
