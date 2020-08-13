@@ -23,7 +23,7 @@ jobs:
         goals: ${{ parameters.goals }}
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
-        options: '-Dversion=${{ parameters.version }}'
+        options: '-Drevision=${{ parameters.version }}'
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar
