@@ -5,17 +5,26 @@ parameters:
   default: ''
 - name: jdkVersionOption
   default: 1.8
+- name: version
+  default: 'unknown'
 
 jobs:
 - job: MavenPackage
   dependsOn: SonarQube
   steps:
+    - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
+      parameters:
+        scannerMode: 'Other'
+        projectVersion: ${{ parameters.version }}
+
     - task: Maven@3
       displayName: 'Maven: building Java app'
       inputs:
         mavenPomFile: ${{ parameters.mavenPomFile }}
         jdkVersionOption: ${{ parameters.jdkVersionOption }}
         goals: ${{ parameters.goals }}
+        sonarQubeRunAnalysis: true
+        sqMavenPluginVersionChoice: 'latest'
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar

@@ -1,0 +1,51 @@
+parameters:
+- name: projectVersion
+  default: 'unknown'
+- name: cliSources
+  default: '/'
+- name: scannerMode
+  default: 'CLI'
+- name: projectKey
+  default: ''
+- name: sonarQubeSvcConn
+  default: 'sq-svcconn'
+ 
+steps:
+  - task: SonarQubePrepare@4  # prepare for non msbuild/ maven source
+    displayName: SonarQube Preparing
+    condition: eq('${{parameters.scannerMode }}', 'CLI')
+    inputs:
+      SonarQube: '${{ parameters.sonarQubeSvcConn }}'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: '${{ parameters.projectKey }}'
+      cliSources: '${{ parameters.cliSources }}'
+      cliProjectVersion: '${{ parameters.projectVersion }}'
+      
+    
+  - task: SonarQubePrepare@4 # prepare for msbuild
+    displayName: SonarQube Preparing MSBuild
+    condition: eq('${{ parameters.scannerMode }}', 'MSBuild')
+    inputs:
+      SonarQube: '${{ parameters.sonarQubeSvcConn }}'
+      scannerMode: 'MSBuild'
+      projectKey: '${{ parameters.projectKey }}'
+      projectVersion: '${{ parameters.projectVersion }}'
+ 
+      
+  - task: SonarQubePrepare@4 #prepare for maven
+    displayName: SonarQube Preparing Maven
+    condition: eq('${{ parameters.scannerMode }}', 'Other')
+    inputs:
+      SonarQube: '${{ parameters.sonarQubeSvcConn }}'
+      scannerMode: 'Other'
+      extraProperties: sonar.projectVersion=${{ parameters.projectVersion }}
+      
+  # https://community.sonarsource.com/t/error-to-use-the-property-sonar-branch-name-and-analyze-branches/11962/31
+  - powershell: |
+      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
+      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+  - task: SonarQubeAnalyze@4
+    displayName: SonarQube Analyzing
+    condition: eq('${{ parameters.scannerMode }}', 'CLI')
