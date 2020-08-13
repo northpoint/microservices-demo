@@ -39,8 +39,8 @@ steps:
     inputs:
       SonarQube: '${{ parameters.sonarQubeSvcConn }}'
       scannerMode: 'Other'
-      projectVersion: '${{ parameters.projectVersion }}'
       
+  # https://community.sonarsource.com/t/error-to-use-the-property-sonar-branch-name-and-analyze-branches/11962/31
   - powershell: |
       $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
       Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
