@@ -5,19 +5,16 @@ parameters:
   default: ''
 - name: jdkVersionOption
   default: 1.8
+- name: version
+  default: 'unknown'
 
 jobs:
 - job: MavenPackage
   steps:
-  
-    - task: SonarQubePrepare@4
-      inputs:
-        SonarQube: 'sq-svcconn'
+    - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
+      parameters:
         scannerMode: 'Other'
-    - powershell: |
-        $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
-        Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
-
+        projectVersion: ${{ parameters.version }}
 
     - task: Maven@3
       displayName: 'Maven: building Java app'
