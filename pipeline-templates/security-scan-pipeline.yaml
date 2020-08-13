@@ -39,6 +39,7 @@ steps:
     inputs:
       SonarQube: '${{ parameters.sonarQubeSvcConn }}'
       scannerMode: 'Other'
+      extraProperties: sonar.projectVersion=${{ parameters.projectVersion }}
       
   # https://community.sonarsource.com/t/error-to-use-the-property-sonar-branch-name-and-analyze-branches/11962/31
   - powershell: |
