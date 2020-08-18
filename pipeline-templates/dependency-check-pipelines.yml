@@ -53,15 +53,16 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-        export SONARQUBE_POD=$(GetSonarQubePodTask.KubectlOutput);
-        echo $SONARQUBE_POD
+        echo sonarqubepod=$(GetSonarQubePodTask.KubectlOutput);
+        echo "##vso[task.setvariable variable=SONARQUBE_POD]sonarqubepod";
+
 - task: Kubernetes@1
   displayName: Create new report directory
   inputs:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'aks-svcconn'
     command: 'exec'
-    arguments: '-it $SONARQUBE_POD -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
+    arguments: '-it $(SONARQUBE_POD) -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 - task: Kubernetes@1
@@ -71,6 +72,6 @@ steps:
     kubernetesServiceEndpoint: 'aks-svcconn'
     namespace: 'sonarqube'
     command: 'cp'
-    arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$SONARQUBE_POD:/opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
+    arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$(SONARQUBE_POD):/opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
