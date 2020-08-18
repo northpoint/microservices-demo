@@ -72,6 +72,6 @@ steps:
     kubernetesServiceEndpoint: 'aks-svcconn'
     namespace: 'sonarqube'
     command: 'cp'
-    arguments: '$(Build.ArtifactStagingDirectory) $SONARQUBE_POD:/opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}'
+    arguments: '$(Build.ArtifactStagingDirectory) $SONARQUBE_POD:/opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
