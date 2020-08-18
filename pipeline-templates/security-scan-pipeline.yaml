@@ -23,9 +23,9 @@ steps:
       cliProjectVersion: '${{ parameters.projectVersion }}'
       extraProperties: |
         sonar.projectVersion=${{ parameters.projectVersion }}
-        sonar.dependencyCheck.xmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.xml
-        sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.json
-        sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.html
+        sonar.dependencyCheck.xmlReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.xml
+        sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.json
+        sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.html
 
       
     
