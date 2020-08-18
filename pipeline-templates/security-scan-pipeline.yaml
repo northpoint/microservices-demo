@@ -10,7 +10,7 @@ parameters:
 - name: sonarQubeSvcConn
   default: 'sq-svcconn'
 - name: depCheckFilePath
-  default: 'opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion/a'
+  default: 'opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a'
 steps:
   - task: SonarQubePrepare@4  # prepare for non msbuild/ maven source
     displayName: SonarQube Preparing
