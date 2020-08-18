@@ -53,13 +53,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[task.setvariable variable=pod]"$GetSonarQubePodTask.KubectlOutput
       echo $(GetSonarQubePodTask.KubectlOutput)
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'echo $(pod)'
-
+      export SONARQUBE_POD=$(GetSonarQubePodTask.KubectlOutput)
 - task: Kubernetes@1
   displayName: Create new report directory
   inputs:
