@@ -5,7 +5,9 @@ parameters:
   default: 'unknown'
 - name: language
   default: ''
- 
+- name: cliSources
+  default: $(Build.Repository.LocalPath)
+
 steps:
 - task: Bash@3
   displayName: Download dependency check
