@@ -48,13 +48,13 @@ steps:
     command: 'get'
     arguments: 'pod --namespace sonarqube -l "app=sonarqube"'
     outputFormat: "jsonpath='{.items[0].metadata.name}'"
-- task: Bash@3
-  displayName: Save sonarqube pod
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo 
-      "##vso[task.setvariable variable=SONARQUBE_POD]$(GetSonarQubePodTask.KubectlOutput)"
+# - task: Bash@3
+#   displayName: Save sonarqube pod
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       echo 
+#       "##vso[task.setvariable variable=SONARQUBE_POD]$(GetSonarQubePodTask.KubectlOutput)"
 - task: Kubernetes@1
   displayName: Create new report directory
   inputs:
