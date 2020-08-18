@@ -31,7 +31,7 @@ steps:
 #   displayName: Run Dependency Check
 #   inputs:
 #     targetType: 'inline'
-#     script: '$(Agent.ToolsDirectory)/dependency-check/bin/dependency-check.sh --project ${{ parameters.projectKey }} --scan ${{ parameters.cliSources }} --out $(Build.ArtifactStagingDirectory) --format ALL --enableExperimental'
+#     script: '$(Agent.ToolsDirectory)/dependency-check/bin/dependency-check.sh --project ${{ parameters.project }} --scan ${{ parameters.cliSources }} --out $(Build.ArtifactStagingDirectory) --format ALL --enableExperimental'
 
 # - task: PublishBuildArtifacts@1
 #   displayName: Publish results
@@ -62,7 +62,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'aks-svcconn'
     command: 'exec'
-    arguments: '-it $SONARQUBE_POD -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}'
+    arguments: '-it $SONARQUBE_POD -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 - task: Kubernetes@1
