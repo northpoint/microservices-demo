@@ -11,6 +11,11 @@ parameters:
   default: 'sq-svcconn'
 
 steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      buildType: 'current'
+      artifactName: 'dependency-check'
+      targetPath: '$(Build.ArtifactStagingDirectory)'
   - task: SonarQubePrepare@4  # prepare for non msbuild/ maven source
     displayName: SonarQube Preparing
     condition: eq('${{parameters.scannerMode }}', 'CLI')
@@ -22,9 +27,9 @@ steps:
       cliSources: '${{ parameters.cliSources }}'
       cliProjectVersion: '${{ parameters.projectVersion }}'
       extraProperties: |
-        sonar.dependencyCheck.xmlReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.xml
-        sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.json
-        sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/**/dependency-check-report.html
+        sonar.dependencyCheck.xmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.xml
+        sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.json
+        sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.html
 
       
     
