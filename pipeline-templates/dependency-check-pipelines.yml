@@ -7,44 +7,54 @@ parameters:
   default: ''
  
 steps:
-- task: Bash@3
-  displayName: Download dependency check
-  inputs:
-    targetType: 'inline'
-    script: |
-      cd $(Agent.ToolsDirectory)
+# - task: Bash@3
+#   displayName: Download dependency check
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       cd $(Agent.ToolsDirectory)
 
-      gpg --keyserver hkp://keys.gnupg.net --recv-keys F9514E84AE3708288374BBBE097586CFEA37F9A6;
+#       gpg --keyserver hkp://keys.gnupg.net --recv-keys F9514E84AE3708288374BBBE097586CFEA37F9A6;
       
-      curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip -OL;
+#       curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip -OL;
 
-      curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip.asc -OL;
+#       curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip.asc -OL;
       
-      gpg --verify dependency-check-5.3.2-release.zip.asc;
+#       gpg --verify dependency-check-5.3.2-release.zip.asc;
 
-      unzip dependency-check-5.3.2-release.zip;
+#       unzip dependency-check-5.3.2-release.zip;
 
-- task: GoTool@0
+# - task: GoTool@0
+#   inputs:
+#     version: '1.10'
+# - task: Bash@3
+#   displayName: Run Dependency Check
+#   inputs:
+#     targetType: 'inline'
+#     script: '$(Agent.ToolsDirectory)/dependency-check/bin/dependency-check.sh --project ${{ parameters.projectKey }} --scan ${{ parameters.cliSources }} --out $(Build.ArtifactStagingDirectory) --format ALL --enableExperimental'
+
+# - task: PublishBuildArtifacts@1
+#   displayName: Publish results
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'dependency-check'
+#     publishLocation: 'Container'
+
+- task: Kubernetes@1
+  name: GetSonarQubePodTask
   inputs:
-    version: '1.10'
-- task: Bash@3
-  displayName: Run Dependency Check
-  inputs:
-    targetType: 'inline'
-    script: '$(Agent.ToolsDirectory)/dependency-check/bin/dependency-check.sh --project ${{ parameters.projectKey }} --scan ${{ parameters.cliSources }} --out $(Build.ArtifactStagingDirectory) --format ALL --enableExperimental'
-
-- task: PublishBuildArtifacts@1
-  displayName: Publish results
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'dependency-check'
-    publishLocation: 'Container'
-
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'aks-svcconn'
+    command: 'get'
+    arguments: 'pod --namespace sonarqube -l "app=sonarqube" -o jsonpath="{.items[0].metadata.name}"'
 - task: Bash@3
   displayName: Export sonarqube pod
   inputs:
     targetType: 'inline'
-    script: 'export SONARQUBE_POD=$(kubectl get pods --namespace sonarqube -l "app=sonarqube" -o jsonpath="{.items[0].metadata.name}")'
+    script: |
+      Write-Host "##vso[task.setvariable variable=pod]"GetSonarQubePodTask
+
+      Export SONARQUBE_POD=$(pod)
 
 - task: Kubernetes@1
   displayName: Create new report directory
