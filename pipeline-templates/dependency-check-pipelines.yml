@@ -54,6 +54,7 @@ steps:
     targetType: 'inline'
     script: |
         export SONARQUBE_POD=$(GetSonarQubePodTask.KubectlOutput) | tr -d "'"
+        echo $SONARQUBE_POD
 - task: Kubernetes@1
   displayName: Create new report directory
   inputs:
