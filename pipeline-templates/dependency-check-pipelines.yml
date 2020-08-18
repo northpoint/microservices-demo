@@ -1,8 +1,6 @@
 parameters:
 - name: project
   default: 'unknown'
-- name: version
-  default: 'unknown'
 - name: language
   default: ''
 - name: cliSources
@@ -61,7 +59,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'aks-svcconn'
     command: 'exec'
-    arguments: '-it $(SONARQUBE_POD) -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
+    arguments: '-it $(SONARQUBE_POD) -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
 - task: Kubernetes@1
@@ -71,6 +69,6 @@ steps:
     kubernetesServiceEndpoint: 'aks-svcconn'
     namespace: 'sonarqube'
     command: 'cp'
-    arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$(SONARQUBE_POD):/opt/sonarqube/dependency-check/${{ parameters.project }}/${{ parameters.version }}'
+    arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$(SONARQUBE_POD):/opt/sonarqube/dependency-check/${{ parameters.project }}'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
