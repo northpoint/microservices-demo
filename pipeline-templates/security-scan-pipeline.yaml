@@ -21,6 +21,12 @@ steps:
       cliProjectKey: '${{ parameters.projectKey }}'
       cliSources: '${{ parameters.cliSources }}'
       cliProjectVersion: '${{ parameters.projectVersion }}'
+      extraProperties: |
+        sonar.projectVersion=${{ parameters.projectVersion }}
+        sonar.dependencyCheck.xmlReportPath=${{ parameters.depCheckFilePath }}/dependency-check-report.xml
+        sonar.dependencyCheck.jsonReportPath=${{ parameters.depCheckFilePath }}/dependency-check-report.json
+        sonar.dependencyCheck.htmlReportPath=${{ parameters.depCheckFilePath }}/dependency-check-report.html
+
       
     
   - task: SonarQubePrepare@4 # prepare for msbuild
