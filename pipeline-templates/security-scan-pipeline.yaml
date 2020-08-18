@@ -23,9 +23,9 @@ steps:
       cliProjectVersion: '${{ parameters.projectVersion }}'
       extraProperties: |
         sonar.projectVersion=${{ parameters.projectVersion }}
-        sonar.dependencyCheck.xmlReportPath=opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.xml
-        sonar.dependencyCheck.jsonReportPath=opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.json
-        sonar.dependencyCheck.htmlReportPath=opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.html
+        sonar.dependencyCheck.xmlReportPath=/opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.xml
+        sonar.dependencyCheck.jsonReportPath=/opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.json
+        sonar.dependencyCheck.htmlReportPath=/opt/sonarqube/dependency-check/${{ parameters.projectKey }}/${{ parameters.projectVersion }}/a/dependency-check-report.html
 
       
     
