@@ -48,7 +48,7 @@ steps:
     command: 'get'
     arguments: 'pod --namespace sonarqube -l "app=sonarqube"'
     outputFormat: "jsonpath='{.items[0].metadata.name}'"
-- task: PowerShell@2
+- task: Bash@3
   displayName: Export sonarqube pod
   inputs:
     targetType: 'inline'
