@@ -37,14 +37,6 @@ steps:
     ArtifactName: 'dependency-check'
     publishLocation: 'Container'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-      
-      ls /home/vsts/work/1/a
-
 # - task: Kubernetes@1
 #   name: GetSonarQubePodTask
 #   inputs:
