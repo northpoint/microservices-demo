@@ -53,7 +53,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "##vso[task.setvariable variable=pod]"GetSonarQubePodTask.KubectlOutput
+      Write-Host "##vso[task.setvariable variable=pod]"$GetSonarQubePodTask.KubectlOutput
 
 - task: Bash@3
   inputs:
