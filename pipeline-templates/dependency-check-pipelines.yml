@@ -53,8 +53,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      echo $(GetSonarQubePodTask.KubectlOutput)
-      "##vso[task.setvariable variable=SONARQUBE_POD"$(GetSonarQubePodTask.KubectlOutput)
+      echo "##vso[task.setvariable variable=SONARQUBE_POD]$(GetSonarQubePodTask.KubectlOutput)"
 - task: Kubernetes@1
   displayName: Create new report directory
   inputs:
