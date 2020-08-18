@@ -37,38 +37,38 @@ steps:
     ArtifactName: 'dependency-check'
     publishLocation: 'Container'
 
-- task: Kubernetes@1
-  name: GetSonarQubePodTask
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'aks-svcconn'
-    command: 'get'
-    arguments: 'pod --namespace sonarqube -l "app=sonarqube"'
-    outputFormat: "jsonpath='{.items[0].metadata.name}'"
-- task: Bash@3
-  displayName: Save sonarqube pod variable
-  inputs:
-    targetType: 'inline'
-    script: |
-      sonarqubepod=$(GetSonarQubePodTask.KubectlOutput);
-      echo "##vso[task.setvariable variable=SONARQUBE_POD]$sonarqubepod";
+# - task: Kubernetes@1
+#   name: GetSonarQubePodTask
+#   inputs:
+#     connectionType: 'Kubernetes Service Connection'
+#     kubernetesServiceEndpoint: 'aks-svcconn'
+#     command: 'get'
+#     arguments: 'pod --namespace sonarqube -l "app=sonarqube"'
+#     outputFormat: "jsonpath='{.items[0].metadata.name}'"
+# - task: Bash@3
+#   displayName: Save sonarqube pod variable
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       sonarqubepod=$(GetSonarQubePodTask.KubectlOutput);
+#       echo "##vso[task.setvariable variable=SONARQUBE_POD]$sonarqubepod";
 
-- task: Kubernetes@1
-  displayName: Create new report directory
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'aks-svcconn'
-    command: 'exec'
-    arguments: '-it $(SONARQUBE_POD) -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}'
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
-- task: Kubernetes@1
-  displayName: Copy over dependency check reports
-  inputs:
-    connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'aks-svcconn'
-    namespace: 'sonarqube'
-    command: 'cp'
-    arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$(SONARQUBE_POD):/opt/sonarqube/dependency-check/${{ parameters.project }}'
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
+# - task: Kubernetes@1
+#   displayName: Create new report directory
+#   inputs:
+#     connectionType: 'Kubernetes Service Connection'
+#     kubernetesServiceEndpoint: 'aks-svcconn'
+#     command: 'exec'
+#     arguments: '-it $(SONARQUBE_POD) -n sonarqube -- mkdir -p /opt/sonarqube/dependency-check/${{ parameters.project }}'
+#     secretType: 'dockerRegistry'
+#     containerRegistryType: 'Azure Container Registry'
+# - task: Kubernetes@1
+#   displayName: Copy over dependency check reports
+#   inputs:
+#     connectionType: 'Kubernetes Service Connection'
+#     kubernetesServiceEndpoint: 'aks-svcconn'
+#     namespace: 'sonarqube'
+#     command: 'cp'
+#     arguments: '$(Build.ArtifactStagingDirectory) sonarqube/$(SONARQUBE_POD):/opt/sonarqube/dependency-check/${{ parameters.project }}'
+#     secretType: 'dockerRegistry'
+#     containerRegistryType: 'Azure Container Registry'
