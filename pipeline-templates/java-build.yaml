@@ -1,6 +1,6 @@
 parameters:
 - name: goals
-  default: package
+  default: verify
 - name: mavenPomFile
   default: ''
 - name: jdkVersionOption
@@ -9,7 +9,7 @@ parameters:
   default: 'unknown'
 
 jobs:
-- job: MavenPackage
+- job: MavenVerify
   steps:
     - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
       parameters:
@@ -24,6 +24,7 @@ jobs:
         goals: ${{ parameters.goals }}
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
+        options: '-Dformats=All org.owasp:dependency-check-maven:check'
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar
