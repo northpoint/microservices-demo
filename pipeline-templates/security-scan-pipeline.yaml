@@ -14,6 +14,7 @@ steps:
 ##### dependency check
   - task: Bash@3
     displayName: Download dependency check
+    condition: eq('${{parameters.scannerMode }}', 'CLI')
     inputs:
       targetType: 'inline'
       script: |
@@ -31,12 +32,14 @@ steps:
 
   - task: Bash@3
     displayName: Run Dependency Check
+    condition: eq('${{parameters.scannerMode }}', 'CLI')
     inputs:
       targetType: 'inline'
       script: '$(Agent.ToolsDirectory)/dependency-check/bin/dependency-check.sh --project ${{ parameters.projectKey }} --scan ${{ parameters.cliSources }} --out $(Build.ArtifactStagingDirectory) --format ALL --enableExperimental'
 
   - task: PublishBuildArtifacts@1
     displayName: Publish results
+    condition: eq('${{parameters.scannerMode }}', 'CLI')
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'dependency-check'
