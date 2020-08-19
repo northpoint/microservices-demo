@@ -17,7 +17,7 @@ jobs:
         projectVersion: ${{ parameters.version }}
 
     - task: Maven@3
-      displayName: 'Maven: building Java app'
+      displayName: 'Maven scanning and building Java app'
       inputs:
         mavenPomFile: ${{ parameters.mavenPomFile }}
         jdkVersionOption: ${{ parameters.jdkVersionOption }}
