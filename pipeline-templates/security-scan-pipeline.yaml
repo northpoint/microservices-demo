@@ -13,6 +13,7 @@ parameters:
 steps:
   - task: DownloadPipelineArtifact@2
     displayName: Download Dependency Check Reports
+    condition: eq('${{parameters.scannerMode }}', 'CLI')
     inputs:
       buildType: 'current'
       artifactName: 'dependency-check'
@@ -32,8 +33,6 @@ steps:
         sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.json
         sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.html
 
-      
-    
   - task: SonarQubePrepare@4 # prepare for msbuild
     displayName: SonarQube Preparing MSBuild
     condition: eq('${{ parameters.scannerMode }}', 'MSBuild')
@@ -56,9 +55,9 @@ steps:
       scannerMode: 'Other'
       extraProperties: |
         sonar.projectVersion=${{ parameters.projectVersion }}
-        sonar.dependencyCheck.xmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.xml
-        sonar.dependencyCheck.jsonReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.json
-        sonar.dependencyCheck.htmlReportPath=$(Build.ArtifactStagingDirectory)/dependency-check-report.html
+        sonar.dependencyCheck.xmlReportPath=$(Build.Repository.LocalPath)/target/dependency-check-report.xml
+        sonar.dependencyCheck.jsonReportPath=$(Build.Repository.LocalPath)/target/dependency-check-report.json
+        sonar.dependencyCheck.htmlReportPath=$(Build.Repository.LocalPath)/target/dependency-check-report.html
 
   # https://community.sonarsource.com/t/error-to-use-the-property-sonar-branch-name-and-analyze-branches/11962/31
   - powershell: |
