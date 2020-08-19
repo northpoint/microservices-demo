@@ -32,3 +32,10 @@ spec:
         backend:
           serviceName: sonarqube-sonarqube
           servicePort: 9000
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /shoppingcartaks
+        backend:
+          serviceName: shoppingcartaks
+          servicePort: 80
