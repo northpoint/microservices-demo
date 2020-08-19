@@ -1,6 +1,6 @@
 parameters:
 - name: goals
-  default: package
+  default: verify
 - name: mavenPomFile
   default: ''
 - name: jdkVersionOption
