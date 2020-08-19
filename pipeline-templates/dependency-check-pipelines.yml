@@ -1,8 +1,6 @@
 parameters:
 - name: project
   default: 'unknown'
-- name: language
-  default: ''
 - name: cliSources
   default: $(Build.Repository.LocalPath)
 
