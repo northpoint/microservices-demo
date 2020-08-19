@@ -24,6 +24,7 @@ jobs:
         goals: ${{ parameters.goals }}
         sonarQubeRunAnalysis: true
         sqMavenPluginVersionChoice: 'latest'
+        options: 'org.owasp:dependency-check-maven:check'
 
     - publish: $(System.DefaultWorkingDirectory)/target
       displayName: Publishing jar
