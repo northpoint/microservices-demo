@@ -9,7 +9,7 @@ parameters:
   default: 'unknown'
 
 jobs:
-- job: MavenPackage
+- job: MavenVerify
   steps:
     - template: /pipeline-templates/security-scan-pipeline.yaml@microservicesdemo
       parameters:
