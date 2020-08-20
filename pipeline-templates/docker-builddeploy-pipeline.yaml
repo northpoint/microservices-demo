@@ -35,8 +35,8 @@ jobs:
     - script: |
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
         -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
-        image kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }} \
-        --format template --template "@templates/junit.tpl" -o junit-report.xml
+        --format template --template "@templates/junit.tpl" -o junit-report.xml        
+        kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }} \
       displayName: Aquasec Trivy Container Scan
       
     - task: PublishTestResults@2
