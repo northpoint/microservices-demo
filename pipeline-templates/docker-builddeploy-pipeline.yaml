@@ -31,7 +31,12 @@ jobs:
         buildContext: '${{ parameters.buildContext }}'
         tags: '{{ parameters.tag }}'
 
-
+    - script: |
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
+        ${{ parameters.tag }}
+      displayName: Aquasec Trivy Scan
+      
     - task: Docker@2
       displayName: Push image to container registry
       inputs:
