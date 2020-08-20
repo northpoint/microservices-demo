@@ -29,6 +29,7 @@ jobs:
         command: 'build'
         Dockerfile: '${{ parameters.dockerfilePath }}'
         buildContext: '${{ parameters.buildContext }}'
+        repository: '${{ parameters.acrRepo }}'
         tags: '{{ parameters.tag }}'
 
     - script: |
