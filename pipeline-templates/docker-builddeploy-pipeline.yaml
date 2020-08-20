@@ -11,8 +11,7 @@ parameters:
   default: '**'
 - name: artifact
   default: ''
-- name: acrName
-  default: 'kubefoundationacr.azurecr.io'
+
 jobs:
 - job: DockerBuild
   steps:
@@ -35,7 +34,7 @@ jobs:
     - script: |
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
         -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
-        ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }}
+        ${{ parameters.acrRepo }}:${{ parameters.tag }}
         --clear-cache
       displayName: Aquasec Trivy Scan
       
