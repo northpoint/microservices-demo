@@ -36,7 +36,6 @@ jobs:
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
         -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
         kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }}
-        --clear-cache
       displayName: Aquasec Trivy Scan
       
     - task: Docker@2
