@@ -36,8 +36,16 @@ jobs:
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
         -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
         kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }}
-      displayName: Aquasec Trivy Scan
+        --format template --template "@templates/junit.tpl" -o junit-report.xml
+      displayName: Aquasec Trivy Container Scan
       
+    - task: PublishTestResults@2
+      displayName: Publish Scan Results
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/junit-report*.xml'
+        failTaskOnFailedTests: false
+      condition: 'always()'
     - task: Docker@2
       displayName: Push image to container registry
       inputs:
