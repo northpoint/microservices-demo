@@ -23,12 +23,20 @@ jobs:
         targetPath: '${{ parameters.buildContext }}'
 
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build docker image
       inputs:
-        command: buildAndPush
-        repository: ${{ parameters.acrRepo }}
-        dockerfile: ${{ parameters.dockerfilePath }}
+        containerRegistry: ${{ parameters.containerRegistrySvcConn }}      
+        command: 'build'
+        Dockerfile: '${{ parameters.dockerfilePath }}'
+        buildContext: '${{ parameters.buildContext }}'
+        tags: '{{ parameters.tag }}'
+
+
+    - task: Docker@2
+      displayName: Push image to container registry
+      inputs:
         containerRegistry: ${{ parameters.containerRegistrySvcConn }}
-        tags: ${{ parameters.tag }}
-        buildContext: ${{ parameters.buildContext }}
+        repository: '${{ parameters.acrRepo }}'
+        command: 'push'
+        tags: '{{ parameters.tag }}'
 
