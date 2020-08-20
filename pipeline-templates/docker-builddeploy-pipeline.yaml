@@ -30,7 +30,7 @@ jobs:
         Dockerfile: '${{ parameters.dockerfilePath }}'
         buildContext: '${{ parameters.buildContext }}'
         repository: '${{ parameters.acrRepo }}'
-        tags: '{{ parameters.tag }}'
+        tags: '${{ parameters.tag }}'
 
     - script: |
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
@@ -45,5 +45,5 @@ jobs:
         containerRegistry: ${{ parameters.containerRegistrySvcConn }}
         repository: '${{ parameters.acrRepo }}'
         command: 'push'
-        tags: '{{ parameters.tag }}'
+        tags: '${{ parameters.tag }}'
 
