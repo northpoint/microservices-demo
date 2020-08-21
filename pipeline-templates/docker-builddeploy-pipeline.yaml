@@ -58,7 +58,7 @@ jobs:
     
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '**/junit-report*.xml'
+        PathtoPublish: '/home/vsts/work/1/s/junit-report.xml'
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: Docker@2
