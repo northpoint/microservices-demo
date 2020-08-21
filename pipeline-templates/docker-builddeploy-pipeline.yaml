@@ -42,7 +42,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          cd $HOME/Library/Caches:/root/.cache;
+          cd /var/run/docker.sock
           ls;
     - task: PublishTestResults@2
       displayName: Publish Scan Results
