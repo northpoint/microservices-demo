@@ -11,6 +11,8 @@ parameters:
   default: '**'
 - name: artifact
   default: ''
+- name: acrName
+  default: 'kubefoundationacr.azurecr.io'
 
 jobs:
 - job: DockerBuild
@@ -43,7 +45,7 @@ jobs:
           sudo apt-get install trivy
 
 
-          trivy --format template --template "@contrib/junit.tpl" -o junit-report.xml kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }} 
+          trivy --debug --format template --template "@contrib/junit.tpl" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
       displayName: Aquasec Trivy Container Scan
       
     - task: Bash@3
