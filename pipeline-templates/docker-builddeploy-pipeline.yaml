@@ -47,13 +47,7 @@ jobs:
 
           trivy image --format template --template "\"@contrib/junit.tpl\"" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
       displayName: Aquasec Trivy Container Scan
-      
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $HOME/Library/Caches/trivy
-          ls;
+
     - task: PublishTestResults@2
       displayName: Publish Scan Results
       inputs:
