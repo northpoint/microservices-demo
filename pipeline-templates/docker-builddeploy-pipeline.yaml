@@ -42,7 +42,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          cd $HOME/Library/Caches
+          cd $HOME/Library/Caches/trivy
           ls;
     - task: PublishTestResults@2
       displayName: Publish Scan Results
