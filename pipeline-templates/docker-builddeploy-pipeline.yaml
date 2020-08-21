@@ -35,7 +35,7 @@ jobs:
         tags: '${{ parameters.tag }}'
 
     - task: Bash@3
-      displayName: Create junit template
+      displayName: Download junit template
       inputs:
         targetType: 'inline'
         script: |
@@ -54,13 +54,6 @@ jobs:
 
           trivy image --format template --template "@junit.tpl" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
 
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '/home/vsts/work/1/s/junit.tpl'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-      condition: 'always()'
 
     - task: PublishTestResults@2
       displayName: Publish Scan Results
