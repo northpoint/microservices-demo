@@ -35,15 +35,15 @@ jobs:
     - script: |
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
         -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy \
-        --format template --template "@contrib/junit.tpl" -o junit-report.xml kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }}
-        ;ls
+        --format template --template "@contrib/junit.tpl" -o $(Common.TestResultsDirectory)/junit-report.xml kubefoundationacr.azurecr.io/${{ parameters.acrRepo }}:${{ parameters.tag }}
       displayName: Aquasec Trivy Container Scan
       
+  
     - task: PublishTestResults@2
       displayName: Publish Scan Results
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/junit-report*.xml'
+        testResultsFiles:  '$(Common.TestResultsDirectory)/junit-report.xml'
         failTaskOnFailedTests: false
       condition: 'always()'
     - task: Docker@2
