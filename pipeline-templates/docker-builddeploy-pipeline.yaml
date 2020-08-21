@@ -45,7 +45,7 @@ jobs:
           sudo apt-get install trivy
 
 
-          trivy image --format template --template "@contrib/junit.tpl" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
+          trivy image --format template --template "\"@contrib/junit.tpl\"" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
       displayName: Aquasec Trivy Container Scan
       
     - task: Bash@3
