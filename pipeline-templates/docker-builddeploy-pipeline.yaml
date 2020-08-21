@@ -79,6 +79,7 @@ jobs:
         PathtoPublish: '/home/vsts/work/1/s/junit.tpl'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+      condition: 'always()'
 
     - task: PublishTestResults@2
       displayName: Publish Scan Results
