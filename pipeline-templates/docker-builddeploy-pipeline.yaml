@@ -11,6 +11,8 @@ parameters:
   default: '**'
 - name: artifact
   default: ''
+- name: acrName
+  default: 'kubefoundationacr.azurecr.io'
 
 jobs:
 - job: DockerBuild
@@ -23,12 +25,49 @@ jobs:
         targetPath: '${{ parameters.buildContext }}'
 
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build docker image
       inputs:
-        command: buildAndPush
-        repository: ${{ parameters.acrRepo }}
-        dockerfile: ${{ parameters.dockerfilePath }}
+        containerRegistry: ${{ parameters.containerRegistrySvcConn }}      
+        command: 'build'
+        Dockerfile: '${{ parameters.dockerfilePath }}'
+        buildContext: '${{ parameters.buildContext }}'
+        repository: '${{ parameters.acrRepo }}'
+        tags: '${{ parameters.tag }}'
+
+    - task: Bash@3
+      displayName: Download junit template
+      inputs:
+        targetType: 'inline'
+        script: |
+          curl -H 'Accept: application/vnd.github.v3.raw' -O -L https://raw.githubusercontent.com/aquasecurity/trivy/master/contrib/junit.tpl
+
+    - task: Bash@3
+      displayName: Aquasec Trivy Container Scan
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get install wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy
+
+          trivy image --format template --template "@junit.tpl" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
+
+
+    - task: PublishTestResults@2
+      displayName: Publish Scan Results
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/junit-report*.xml'
+        failTaskOnFailedTests: false
+      condition: 'always()'
+
+    - task: Docker@2
+      displayName: Push image to container registry
+      inputs:
         containerRegistry: ${{ parameters.containerRegistrySvcConn }}
-        tags: ${{ parameters.tag }}
-        buildContext: ${{ parameters.buildContext }}
+        repository: '${{ parameters.acrRepo }}'
+        command: 'push'
+        tags: '${{ parameters.tag }}'
 
