@@ -35,6 +35,7 @@ jobs:
         tags: '${{ parameters.tag }}'
 
     - task: Bash@3
+      displayName: Create junit template
       inputs:
         targetType: 'inline'
         script: |
@@ -60,6 +61,7 @@ jobs:
           EOF
 
     - task: Bash@3
+      displayName: Aquasec Trivy Container Scan
       inputs:
         targetType: 'inline'
         script: |
@@ -69,9 +71,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
 
-
           trivy image --format template --template "@junit.tpl" -o junit-report.xml ${{ parameters.acrName }}/${{ parameters.acrRepo }}:${{ parameters.tag }} 
-      displayName: Aquasec Trivy Container Scan
+
 
     - task: PublishTestResults@2
       displayName: Publish Scan Results
@@ -83,7 +84,7 @@ jobs:
     
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '/home/vsts/work/1/s/junit-report.xml'
+        PathtoPublish: '/home/vsts/work/1/s/junit.tpl'
         ArtifactName: 'drop'
         publishLocation: 'Container'
     - task: Docker@2
