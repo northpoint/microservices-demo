@@ -12,12 +12,18 @@ stages:
   - job: LinkerdSetup
     steps:
     - task: Bash@3
-      displayName: Generate exp date
+      displayName: Preconfig for helm install
       inputs:
         targetType: 'inline'
         script: |
           DATE=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ") 
           echo "##vso[task.setvariable variable=exp;]$DATE"
+
+          step certificate create identity.linkerd.cluster.local ca.crt ca.key \
+          --profile root-ca --no-password --insecure
+
+          step certificate create identity.linkerd.cluster.local issuer.crt issuer.key --ca ca.crt --ca-key ca.key --profile intermediate-ca --not-after 8760h --no-password --insecure
+
 
     - task: HelmDeploy@0
       displayName: Linkerd helm repo
