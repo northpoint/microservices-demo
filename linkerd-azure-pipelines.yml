@@ -45,3 +45,11 @@ stages:
           --set identity.issuer.crtExpiry=$(exp)
           --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
           --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
+
+    - task: Kubernetes@1
+      displayName: Annotating sock-shop linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace sock-shop linkerd.io/inject=enabled --overwrite'
