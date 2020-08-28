@@ -19,6 +19,8 @@ stages:
           DATE=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ") 
           echo "##vso[task.setvariable variable=exp;]$DATE"
 
+          brew install step
+          
           step certificate create identity.linkerd.cluster.local ca.crt ca.key \
           --profile root-ca --no-password --insecure
 
