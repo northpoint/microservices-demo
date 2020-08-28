@@ -1,0 +1,38 @@
+trigger: none
+pr: none
+
+variables:  
+  # service connection for Kube
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: LinkerdSetup
+  displayName: Linkerd Setup
+  jobs:  
+  - job: LinkerdSetup
+    steps:
+    - task: HelmDeploy@0
+      displayName: Linkerd helm repo
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add linkerd https://helm.linkerd.io/stable'
+
+    - task: HelmDeploy@0
+      displayName: Linkerd update/deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        namespace: linkerd
+        chartType: 'Name'
+        chartName: 'linkerd/linkerd2'
+        releaseName: 'linkerd2'
+        arguments: >
+          --create-namespace
+          --set-file global.identityTrustAnchorsPEM=ca.crt
+          --set-file identity.issuer.tls.crtPEM=issuer.crt
+          --set-file identity.issuer.tls.keyPEM=issuer.key
+          --set identity.issuer.crtExpiry=$exp
+
