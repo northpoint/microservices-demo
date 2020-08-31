@@ -59,3 +59,19 @@ stages:
         kubernetesServiceEndpoint: $(kubernetesSvcConn)
         command: 'annotate'
         arguments: 'namespace sock-shop linkerd.io/inject=enabled --overwrite'
+
+    - task: Kubernetes@1
+      displayName: Annotating app-metrics-agent linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace app-metrics-agent linkerd.io/inject=enabled --overwrite'
+
+    - task: Kubernetes@1
+      displayName: Annotating demoapp linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace demoapp linkerd.io/inject=enabled --overwrite'
