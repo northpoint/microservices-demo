@@ -1,0 +1,77 @@
+trigger: none
+pr: none
+
+variables:  
+  # service connection for Kube
+  kubernetesSvcConn: 'aks-svcconn'
+
+stages:
+- stage: LinkerdSetup
+  displayName: Linkerd Setup
+  jobs:  
+  - job: LinkerdSetup
+    steps:
+    - task: Bash@3
+      displayName: Preconfig for helm install
+      inputs:
+        targetType: 'inline'
+        script: |
+          DATE=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ") 
+          echo "##vso[task.setvariable variable=exp;]$DATE"
+
+          brew install step
+          
+          step certificate create identity.linkerd.cluster.local ca.crt ca.key \
+          --profile root-ca --no-password --insecure
+
+          step certificate create identity.linkerd.cluster.local issuer.crt issuer.key --ca ca.crt --ca-key ca.key --profile intermediate-ca --not-after 8760h --no-password --insecure
+
+
+    - task: HelmDeploy@0
+      displayName: Linkerd helm repo
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'repo'
+        arguments: 'add linkerd https://helm.linkerd.io/stable'
+
+    - task: HelmDeploy@0
+      displayName: Linkerd update/deploy
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: '$(kubernetesSvcConn)'
+        command: 'upgrade'
+        chartType: 'Name'
+        chartName: 'linkerd/linkerd2'
+        releaseName: 'linkerd2'
+        arguments: >
+          --set-file global.identityTrustAnchorsPEM=ca.crt
+          --set-file identity.issuer.tls.crtPEM=issuer.crt
+          --set-file identity.issuer.tls.keyPEM=issuer.key
+          --set identity.issuer.crtExpiry=$(exp)
+          --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
+          --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
+
+    - task: Kubernetes@1
+      displayName: Annotating sock-shop linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace sock-shop linkerd.io/inject=enabled --overwrite'
+
+    - task: Kubernetes@1
+      displayName: Annotating app-metrics-agent linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace app-metrics-agent linkerd.io/inject=enabled --overwrite'
+
+    - task: Kubernetes@1
+      displayName: Annotating demoapp linkerd injection
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: $(kubernetesSvcConn)
+        command: 'annotate'
+        arguments: 'namespace demoapp linkerd.io/inject=enabled --overwrite'
