@@ -51,7 +51,6 @@ stages:
           --set identity.issuer.crtExpiry=$(exp)
           --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
           --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
-          --reuse-values
 
     - task: Kubernetes@1
       displayName: Annotating sock-shop linkerd injection
