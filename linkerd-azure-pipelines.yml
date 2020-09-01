@@ -1,3 +1,5 @@
+# TODO Move the cert generation out - every time pipeline runs it overwrites with new cert which affects existing cluster
+# must manually replace trust anchor https://linkerd.io/2/tasks/manually-rotating-control-plane-tls-credentials/
 trigger: none
 pr: none
 
