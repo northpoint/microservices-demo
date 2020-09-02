@@ -33,4 +33,4 @@ stages:
         arguments: > 
           --create-namespace
           --post-renderer ./kustomize.sh
-
+          --dry-run
