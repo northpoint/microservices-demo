@@ -30,7 +30,7 @@ jobs:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection:  ${{ parameters.kubernetesSvcConn }}
       command: 'upgrade'
-      namespace: ingress-nginx
+      namespace: sock-shop
       chartType: 'FilePath'
       chartPath: './deploy/kubernetes/helm-chart/'
       releaseName: 'microservices-demo'
