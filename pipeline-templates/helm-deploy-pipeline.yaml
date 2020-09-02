@@ -37,5 +37,6 @@ jobs:
         --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
         --reuse-values
         ${{ parameters.arguments }}   
+        --post-renderer ../kustomize
 
        # make sure we dont reset to default values in helm for other services
