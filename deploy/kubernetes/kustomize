@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/bin/sh
+cat > base.yaml
 
-cat <&0 > all.yaml
-
-kustomize build . && rm all.yaml
+exec kubectl kustomize
+EOF
+chmod +x ./kustomize.sh
