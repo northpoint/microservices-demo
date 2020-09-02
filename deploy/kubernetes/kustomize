@@ -1,2 +1,2 @@
 #!/bin/sh
-kustomize build .
+sudo kustomize build .
