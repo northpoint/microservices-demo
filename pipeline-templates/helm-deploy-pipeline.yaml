@@ -40,6 +40,6 @@ jobs:
         --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
         --reuse-values
         ${{ parameters.arguments }}   
-        --post-renderer ./deploy/kubernetes/kustomize
+        --post-renderer ./deploy/kubernetes/kustomize.sh
 
        # make sure we dont reset to default values in helm for other services
