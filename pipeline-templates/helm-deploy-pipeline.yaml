@@ -23,6 +23,7 @@ jobs:
         helm dependency update ./deploy/kubernetes/helm-chart
         curl -s "https://raw.githubusercontent.com/\
         kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+        chmod +x ./deploy/kubernetes/kustomize.sh
       
   - task: HelmDeploy@0
     displayName: Deploy microservices demo
