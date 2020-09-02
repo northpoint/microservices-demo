@@ -26,7 +26,7 @@ stages:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceConnection: '$(kubernetesSvcConn)'
         command: 'upgrade'
-        namespace: sock-shop
+        namespace: ingress-nginx
         chartType: 'Name'
         chartName: 'ingress-nginx/ingress-nginx'
         releaseName: 'ingress-nginx'
