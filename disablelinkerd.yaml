@@ -1,6 +1,10 @@
-commonAnnotations:
-  - path: metadata/annotations
-    create: true
-    group: batch
-    version: v1
-    kind: Job
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: isThisNeeded
+annotations:
+  linkerd.io/inject: disabled
+fieldSpecs:
+- kind: Job
+  path: metadata/annotations
+  create: true
