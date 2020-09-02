@@ -1,6 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-- ingress-nginx/templates/admission-webhooks/job-patch/job-createSecret.yaml
+
+configurations:
+    - disablelinkerd.yaml
+
 commonAnnotations:
     linkerd.io/inject: disabled

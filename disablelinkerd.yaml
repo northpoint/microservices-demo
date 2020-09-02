@@ -1,0 +1,6 @@
+commonAnnotations:
+  - path: metadata/annotations
+    create: true
+    groups: batch
+    version: v1
+    kind: Job
