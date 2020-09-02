@@ -1,9 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-    name: sonarqube-sonarqube
-    namespace: sock-shop
-spec:
-    type: ExternalName
-    externalName: sonarqube-sonarqube.sonarqube.svc.cluster.local
-    
