@@ -38,6 +38,7 @@ jobs:
       arguments: >
         --create-namespace
         --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
+        --reuse-values
         ${{ parameters.arguments }}   
         --post-renderer ./kustomize.sh
 
