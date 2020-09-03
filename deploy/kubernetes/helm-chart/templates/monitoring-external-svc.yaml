@@ -1,9 +1,0 @@
-kind: Service
-apiVersion: v1
-metadata:
-    name: monitoring-grafana
-    namespace: sock-shop
-spec:
-    type: ExternalName
-    externalName: monitoring-grafana.monitoring.svc.cluster.local
-    

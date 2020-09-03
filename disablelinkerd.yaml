@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: isThisNeeded
+annotations:
+  linkerd.io/inject: disabled
+fieldSpecs:
+- kind: Job
+  path: metadata/annotations
+  create: true

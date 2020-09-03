@@ -14,12 +14,6 @@ jobs:
 - job: HelmDeploy
   steps:
   - checkout: microservicesdemo # checks out template yaml in microservices-demo
-
-  - task: Bash@3
-    displayName: Downloads dependencies from requirements.yaml
-    inputs:
-      targetType: 'inline'
-      script: 'helm dependency update ./deploy/kubernetes/helm-chart'
       
   - task: HelmDeploy@0
     displayName: Deploy microservices demo
@@ -37,5 +31,6 @@ jobs:
         --set images.${{ parameters.serviceName }}=${{ parameters.containerRegistry }}/${{ parameters.image }}
         --reuse-values
         ${{ parameters.arguments }}   
+ 
 
        # make sure we dont reset to default values in helm for other services
