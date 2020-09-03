@@ -14,15 +14,6 @@ jobs:
 - job: HelmDeploy
   steps:
   - checkout: microservicesdemo # checks out template yaml in microservices-demo
-
-  - task: Bash@3
-    displayName: Downloads dependencies from requirements.yaml
-    inputs:
-      targetType: 'inline'
-      script: |
-        helm dependency update ./deploy/kubernetes/helm-chart
-        curl -s "https://raw.githubusercontent.com/\
-        kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
       
   - task: HelmDeploy@0
     displayName: Deploy microservices demo
