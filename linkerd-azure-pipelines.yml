@@ -53,6 +53,10 @@ stages:
           --set identity.issuer.crtExpiry=$(exp)
           --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
           --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
+          --set global.proxy.resources.cpu.limit="1"
+          --set global.proxy.resources.cpu.request=100m
+          --set global.proxy.resources.memory.limit=250Mi
+          --set global.proxy.resources.memory.request=20Mi
 
     - task: Kubernetes@1
       displayName: Annotating sock-shop linkerd injection
