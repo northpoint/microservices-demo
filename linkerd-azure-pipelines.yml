@@ -50,7 +50,7 @@ stages:
           --set-file global.identityTrustAnchorsPEM=$(Agent.TempDirectory)/ca.crt
           --set-file identity.issuer.tls.crtPEM=$(Agent.TempDirectory)/issuer.crt
           --set-file identity.issuer.tls.keyPEM=$(Agent.TempDirectory)/issuer.key
-          --set identity.issuer.crtExpiry=$(exp)
+          --set identity.issuer.crtExpiry="\"$(exp)\""
           --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
           --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
           --set global.proxy.resources.cpu.limit="1"
