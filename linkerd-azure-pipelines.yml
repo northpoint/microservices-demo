@@ -5,6 +5,7 @@ pr: none
 variables:  
   # service connection for Kube
   kubernetesSvcConn: 'aks-svcconn'
+  exp: '2021-10-07T19:43:08Z'
 
 stages:
 - stage: LinkerdSetup
