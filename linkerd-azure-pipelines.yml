@@ -1,5 +1,4 @@
-# TODO Move the cert generation out - every time pipeline runs it overwrites with new cert which affects existing cluster
-# must manually replace trust anchor https://linkerd.io/2/tasks/manually-rotating-control-plane-tls-credentials/
+## rotating certs every ~ year https://linkerd.io/2/tasks/manually-rotating-control-plane-tls-credentials/
 trigger: none
 pr: none
 
@@ -13,21 +12,21 @@ stages:
   jobs:  
   - job: LinkerdSetup
     steps:
-    - task: Bash@3
-      displayName: Preconfig for helm install
+
+    - task: DownloadSecureFile@1
+      displayName: Retrieving ca.crt
       inputs:
-        targetType: 'inline'
-        script: |
-          DATE=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ") 
-          echo "##vso[task.setvariable variable=exp;]$DATE"
+        secureFile: 'ca.crt'
 
-          brew install step
-          
-          step certificate create identity.linkerd.cluster.local ca.crt ca.key \
-          --profile root-ca --no-password --insecure
+    - task: DownloadSecureFile@1
+      displayName: Retrieving issuer.crt
+      inputs:
+        secureFile: 'issuer.crt'
 
-          step certificate create identity.linkerd.cluster.local issuer.crt issuer.key --ca ca.crt --ca-key ca.key --profile intermediate-ca --not-after 8760h --no-password --insecure
-
+    - task: DownloadSecureFile@1
+      displayName: Retrieving issuer.key
+      inputs:
+        secureFile: 'issuer.key'
 
     - task: HelmDeploy@0
       displayName: Linkerd helm repo
@@ -47,9 +46,9 @@ stages:
         chartName: 'linkerd/linkerd2'
         releaseName: 'linkerd2'
         arguments: >
-          --set-file global.identityTrustAnchorsPEM=ca.crt
-          --set-file identity.issuer.tls.crtPEM=issuer.crt
-          --set-file identity.issuer.tls.keyPEM=issuer.key
+          --set-file global.identityTrustAnchorsPEM=$(Agent.TempDirectory)/ca.crt
+          --set-file identity.issuer.tls.crtPEM=$(Agent.TempDirectory)/issuer.crt
+          --set-file identity.issuer.tls.keyPEM=$(Agent.TempDirectory)/issuer.key
           --set identity.issuer.crtExpiry=$(exp)
           --set global.prometheusUrl=http://prometheus-operated.monitoring.svc.cluster.local:9090
           --set global.grafanaUrl=http://monitoring-grafana.monitoring.svc.cluster.local:3000
