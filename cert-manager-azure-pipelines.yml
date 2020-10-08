@@ -33,3 +33,10 @@ stages:
         releaseName: 'cert-manager'
         arguments: '--create-namespace --set installCRDs=true'
 
+    - task: Kubernetes@1
+      displayName: Adding lets-enrypt cluster issuer
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'aks-svcconn'
+        command: 'apply'
+        arguments: '-f cert-manager-cluster-issuer.yaml'
