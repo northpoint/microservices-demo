@@ -12,6 +12,14 @@ plugins:
     - "https://github.com/dependency-check/dependency-check-sonar-plugin/releases/download/2.0.5/sonar-dependency-check-plugin-2.0.5.jar"
 ingress:
   enabled: true
+  annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    - secretName: letsencrypt-prod
+      hosts: 
+        - eykubefoundation.westus2.cloudapp.azure.com
   hosts:
     - name: eykubefoundation.westus2.cloudapp.azure.com
       path: /sonarqube
+      
