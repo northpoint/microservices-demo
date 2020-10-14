@@ -28,3 +28,4 @@ images:
     catalogue: weaveworksdemos/catalogue:0.3.5
     cataloguedb: weaveworksdemos/catalogue-db:0.3.0
     carts: weaveworksdemos/carts:0.4.8
+namespace: sock-shop
