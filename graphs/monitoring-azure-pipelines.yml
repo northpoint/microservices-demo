@@ -39,6 +39,7 @@ steps:
         --set clientId=$(clientId)
         --set workspace=$(workspace)
         --set secret=$(secret)
+        --create-namespace
   - task: HelmDeploy@0
     displayName: Prom Operator Repo Add
     inputs:
