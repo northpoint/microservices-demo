@@ -46,7 +46,7 @@ steps:
       connectionType: 'Kubernetes Service Connection'
       kubernetesServiceConnection: '$(kubernetesSvcConn)'
       command: 'repo'
-      arguments: 'add stable https://kubernetes-charts.storage.googleapis.com'
+      arguments: 'add stable https://charts.helm.sh/stable'
   - task: HelmDeploy@0
     displayName: Prom Operator Deploy
     inputs:
