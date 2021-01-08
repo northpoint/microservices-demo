@@ -12,7 +12,7 @@ parameters:
 - name: artifact
   default: ''
 - name: acrName
-  default: 'kubefoundationacr.azurecr.io'
+  default: 'acrmicroservicedemo13.azurecr.io'
 
 jobs:
 - job: DockerBuild
