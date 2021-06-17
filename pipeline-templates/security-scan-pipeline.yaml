@@ -22,13 +22,13 @@ steps:
 
         gpg --keyserver hkp://keys.gnupg.net --recv-keys F9514E84AE3708288374BBBE097586CFEA37F9A6;
         
-        curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip -OL;
+        curl https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip -OL;
 
-        curl https://dl.bintray.com/jeremy-long/owasp/dependency-check-5.3.2-release.zip.asc -OL;
+        curl https://github.com/jeremylong/DependencyCheck/releases/download/v6.2.2/dependency-check-6.2.2-release.zip.asc -OL;
         
-        gpg --verify dependency-check-5.3.2-release.zip.asc;
+        gpg --verify dependency-check-6.2.2-release.zip.asc;
 
-        unzip dependency-check-5.3.2-release.zip;
+        unzip dependency-check-6.2.2-release.zip;
 
   - task: Bash@3
     displayName: Run Dependency Check
