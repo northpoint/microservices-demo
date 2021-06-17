@@ -18,8 +18,8 @@ ingress:
   tls:
     - secretName: letsencrypt-prod
       hosts: 
-        - https://ey-aks-devsecops-demo.centralus.cloudapp.azure.com/sonarqube
+        - ey-aks-devsecops-demo.centralus.cloudapp.azure.com/sonarqube
   hosts:
-    - name: https://ey-aks-devsecops-demo.centralus.cloudapp.azure.com/sonarqube
+    - name: ey-aks-devsecops-demo.centralus.cloudapp.azure.com/sonarqube
       path: /sonarqube
       
