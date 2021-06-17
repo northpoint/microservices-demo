@@ -33,3 +33,4 @@ stages:
         arguments: >
           --values ./sonarqube/sonarqube-overrides.yaml
           --create-namespace
+        failOnStderr: false  
