@@ -6,7 +6,7 @@ parameters:
 - name: image # new deployed image (overwriting the image value in helm)
   default: ''
 - name: containerRegistry # container registry (overwriting the registry in helm)
-  default: 'kubefoundationacr.azurecr.io'
+  default: 'DevSecOpsAzureCR.azurecr.io'
 - name: arguments
   default: ''
 
